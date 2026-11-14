@@ -1,9 +1,11 @@
 import { createHash } from "crypto";
 import { mkdir, readFile, writeFile } from "fs/promises";
+import os from "os";
 import path from "path";
 import type { NextRequest } from "next/server";
 
-const CACHE_DIR = path.join(process.cwd(), ".cache", "tts");
+// Outside the project tree: file writes here do not churn the dev watcher
+const CACHE_DIR = path.join(os.tmpdir(), "mission-dhruva-tts");
 
 const SARVAM_SPEAKERS = {
   en: "aparna_en_companion",

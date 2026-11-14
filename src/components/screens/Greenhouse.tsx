@@ -69,7 +69,7 @@ export default function Greenhouse() {
         : t.greenhouse.stageMature;
 
   return (
-    <MarsScene className="screen-pad">
+    <MarsScene className="screen-pad" bg="/assets/bg-greenhouse.webp">
       <div className="screen-content">
         <h2 className="screen-title font-pixel">{t.map.greenhouse}</h2>
 

@@ -72,7 +72,7 @@ export default function TransitScreen() {
   const showChinnu = stage === "sending" && progress > 0.45;
 
   return (
-    <SpaceScene className="screen-pad">
+    <SpaceScene className="screen-pad" bg="/assets/bg-space.webp">
       <div className="screen-content">
         <PixelSprite
           grid={ROCKET}

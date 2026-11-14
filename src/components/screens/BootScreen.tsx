@@ -15,6 +15,11 @@ export default function BootScreen() {
       className="boot-screen"
       onClick={() => go("boarding")}
       aria-label={t.boot.tap}
+      style={{
+        backgroundImage: "url(/assets/bg-space.webp)",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
     >
       <div className="boot-mascot">
         <Image

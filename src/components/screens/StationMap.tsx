@@ -47,7 +47,7 @@ export default function StationMap() {
   ];
 
   return (
-    <MarsScene className="screen-pad">
+    <MarsScene className="screen-pad" bg="/assets/bg-outpost.webp">
       <div className="screen-content">
         <h2 className="screen-title font-pixel">{t.map.title}</h2>
         <p className="map-commander">{fmt(t.map.commander, { name: who })}</p>

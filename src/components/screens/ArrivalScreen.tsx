@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useGame } from "@/lib/game/store";
 import { useNarration, type NarrationLine } from "@/lib/audio/speech";
 import { displayName, fmt, STRINGS } from "@/lib/i18n/strings";
-import { ASTRONAUT, CHINNU, DOME_ICON, PixelSprite } from "@/components/ui/Sprites";
+import { ASTRONAUT, DOME_ICON, PixelSprite } from "@/components/ui/Sprites";
 import { MarsScene } from "@/components/ui/Scene";
 import { ContinueButton } from "@/components/ui/ChoiceCards";
 
@@ -48,7 +48,7 @@ export default function ArrivalScreen() {
   };
 
   return (
-    <MarsScene className="screen-pad">
+    <MarsScene className="screen-pad" bg="/assets/bg-outpost.webp">
       <div className="screen-content">
         <div className="outpost-panorama">
           <PixelSprite grid={DOME_ICON} scale={8} className="sprite-float" />
@@ -58,7 +58,11 @@ export default function ArrivalScreen() {
           <PixelSprite grid={ASTRONAUT} scale={5} className="sprite-bob" />
           {stage !== "arrive" && (
             <div className="fade-in">
-              <PixelSprite grid={CHINNU} scale={5} className="sprite-bob" />
+              <img
+                src="/assets/chinnu.png"
+                alt="Chinnu the rover-bot"
+                className="chinnu-art sprite-bob"
+              />
             </div>
           )}
         </div>

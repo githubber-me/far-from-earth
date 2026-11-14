@@ -11,7 +11,7 @@ export default function Sources() {
   const t = STRINGS[lang];
 
   return (
-    <SpaceScene className="screen-pad">
+    <SpaceScene className="screen-pad" bg="/assets/bg-space.webp">
       <div className="screen-content sources-content">
         <h2 className="screen-title font-pixel">{t.sources.title}</h2>
         <p className="sources-intro">{t.sources.intro}</p>

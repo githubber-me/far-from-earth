@@ -50,7 +50,7 @@ export default function Storm() {
   }
 
   return (
-    <MarsScene storm className="screen-pad">
+    <MarsScene storm className="screen-pad" bg="/assets/bg-storm.webp">
       <div className="screen-content">
         <h2 className="screen-title screen-title-alert font-pixel">{t.storm.title}</h2>
 

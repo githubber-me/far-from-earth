@@ -51,7 +51,7 @@ export default function Recovery() {
   useNarration(lines, `recovery-${stage}-${stormChoice}-${lang}`);
 
   return (
-    <MarsScene className="screen-pad after-storm">
+    <MarsScene className="screen-pad after-storm" bg="/assets/bg-outpost.webp">
       <div className="screen-content">
         {stage === "outcome" && (
           <ContinueButton label={t.recovery.btnContinue} onClick={() => setStage("card")} />
@@ -61,6 +61,13 @@ export default function Recovery() {
           <div className="fade-in">
             <div className="science-card">
               <PixelSprite grid={CHINNU} scale={4} className="sprite-bob" />
+              {stormChoice === "shields" && (
+                <img
+                  src="/assets/gerald.png"
+                  alt="Gerald the frozen tomato plant"
+                  className="gerald-art sprite-bob"
+                />
+              )}
               <h3 className="science-title font-pixel">{t.recovery.cardTitle}</h3>
               <p className="science-body">{t.recovery.cardBody}</p>
               <p className="science-source">{t.recovery.cardSource}</p>

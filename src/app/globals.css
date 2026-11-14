@@ -267,9 +267,31 @@ button {
   background: var(--color-paper);
 }
 
+.scene-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+}
+
+.scene-scrim {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--color-shade) 50%, transparent) 0%,
+    color-mix(in oklab, var(--color-shade) 10%, transparent) 26%,
+    transparent 55%,
+    color-mix(in oklab, var(--color-shade) 74%, transparent) 100%
+  );
+}
+
 .stars-layer {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background-image:
     radial-gradient(2px 2px at 12% 18%, var(--color-ink) 30%, transparent),
     radial-gradient(1px 1px at 28% 64%, var(--color-ink-2) 40%, transparent),
@@ -309,6 +331,7 @@ button {
   background: var(--color-mars-sun);
   border: var(--rule-hair) solid var(--color-mars-3);
   box-shadow: 0 0 0 var(--space-sm) color-mix(in oklab, var(--color-mars-sun) 14%, transparent);
+  pointer-events: none;
 }
 
 .mars-hills {
@@ -317,6 +340,7 @@ button {
   right: 0;
   bottom: 56px;
   height: 120px;
+  pointer-events: none;
   background-image:
     radial-gradient(130px 62px at 18% 100%, var(--color-mars-hill) 98%, transparent),
     radial-gradient(170px 84px at 76% 100%, var(--color-mars-hill) 98%, transparent),
@@ -331,6 +355,7 @@ button {
   height: 56px;
   background: var(--color-mars-ground);
   border-top: var(--rule-bar) solid var(--color-mars-hill);
+  pointer-events: none;
 }
 
 .scene-storm {
@@ -367,6 +392,7 @@ button {
   height: 5px;
   background: color-mix(in oklab, var(--color-mars-4) 55%, transparent);
   animation: drift linear infinite;
+  pointer-events: none;
 }
 
 .scene-storm .dust {
@@ -410,6 +436,8 @@ button {
 }
 
 .screen-content {
+  position: relative;
+  z-index: 2;
   width: 100%;
   max-width: 460px;
   display: flex;
@@ -485,6 +513,7 @@ button {
   display: flex;
   justify-content: center;
   filter: drop-shadow(6px 6px 0 color-mix(in oklab, var(--color-shade) 80%, transparent));
+  z-index: 2;
 }
 
 .boot-mascot img {
@@ -496,6 +525,7 @@ button {
 
 .boot-copy {
   position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -536,6 +566,7 @@ button {
 
 .boot-credit {
   position: relative;
+  z-index: 2;
   font-size: 12px;
   color: var(--color-muted);
   margin: var(--space-xl) 0 0;
@@ -1256,6 +1287,22 @@ button {
   color: var(--color-accent-2);
   font-weight: 700;
   font-size: 17px;
+}
+
+/* ---------- Generated character art ---------- */
+
+.chinnu-art {
+  height: 160px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(4px 4px 0 color-mix(in oklab, var(--color-shade) 70%, transparent));
+}
+
+.gerald-art {
+  height: 120px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(4px 4px 0 color-mix(in oklab, var(--color-shade) 70%, transparent));
 }
 
 /* ---------- Sprites ---------- */

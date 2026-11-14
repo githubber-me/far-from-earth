@@ -25,7 +25,7 @@ export default function SolReport() {
   const celsius = (v: number) => `${v}\u00b0C`;
 
   return (
-    <MarsScene className="screen-pad">
+    <MarsScene className="screen-pad" bg="/assets/bg-sol.webp">
       <div className="screen-content">
         <h2 className="screen-title font-pixel">{t.sol.title}</h2>
 

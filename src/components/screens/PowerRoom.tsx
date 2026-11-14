@@ -87,7 +87,7 @@ export default function PowerRoom() {
   }
 
   return (
-    <MarsScene className="screen-pad">
+    <MarsScene className="screen-pad" bg="/assets/bg-power.webp">
       <div className="screen-content">
         <PixelSprite grid={SUN_ICON} scale={5} className="sprite-float" />
         <h2 className="screen-title font-pixel">{t.map.power}</h2>

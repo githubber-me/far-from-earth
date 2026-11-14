@@ -55,9 +55,16 @@ export default function Ceremony() {
   }
 
   return (
-    <SpaceScene className="screen-pad">
+    <SpaceScene className="screen-pad" bg="/assets/bg-space.webp">
       <div className="screen-content">
-        <PixelSprite grid={ASTRONAUT_CELEBRATE} scale={5} className="sprite-bob" />
+        <div className="astronaut-row">
+          <PixelSprite grid={ASTRONAUT_CELEBRATE} scale={5} className="sprite-bob" />
+          <img
+            src="/assets/chinnu.png"
+            alt="Chinnu the rover-bot"
+            className="chinnu-art sprite-bob"
+          />
+        </div>
 
         {stage === "award" && (
           <button

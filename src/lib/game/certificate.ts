@@ -90,6 +90,23 @@ function drawBorder(ctx: CanvasRenderingContext2D) {
   ctx.strokeRect(40, 40, W - 80, H - 80);
 }
 
+function loadImage(src: string): Promise<HTMLImageElement | null> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = () => resolve(null);
+    img.src = src;
+  });
+}
+
+async function drawChinnu(ctx: CanvasRenderingContext2D) {
+  const chinnu = await loadImage("/assets/chinnu.png");
+  if (!chinnu) return;
+  const h = 120;
+  const w = h * (chinnu.width / chinnu.height);
+  ctx.drawImage(chinnu, 190, H - 150 - h + 40, w, h);
+}
+
 export async function downloadCertificate(info: CertificateInfo) {
   const t = STRINGS[info.lang];
   const canvas = document.createElement("canvas");
@@ -107,6 +124,7 @@ export async function downloadCertificate(info: CertificateInfo) {
   drawStars(ctx);
   drawMars(ctx);
   drawPixelAstronaut(ctx);
+  await drawChinnu(ctx);
   drawBorder(ctx);
 
   ctx.textAlign = "center";
