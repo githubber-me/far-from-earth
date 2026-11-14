@@ -20,15 +20,17 @@ export default function BootScreen() {
         <Image
           src="/assets/mascot.png"
           alt="Junior astronaut"
-          width={183}
-          height={400}
+          width={275}
+          height={600}
           priority
         />
       </div>
-      <h1 className="boot-title font-pixel">{t.boot.title}</h1>
-      <p className="boot-sub">{t.boot.sub}</p>
+      <div className="boot-copy">
+        <h1 className="boot-title">{t.boot.title}</h1>
+        <p className="boot-sub">{t.boot.sub}</p>
+        <span className="boot-tap">{t.boot.tap}</span>
+      </div>
       <p className="boot-credit">{t.boot.credit}</p>
-      <p className="boot-tap font-pixel">{t.boot.tap}</p>
     </button>
   );
 }

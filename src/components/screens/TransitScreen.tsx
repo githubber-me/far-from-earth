@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import type { CSSProperties } from "react";
 import { useGame } from "@/lib/game/store";
 import { useNarration, type NarrationLine } from "@/lib/audio/speech";
 import { displayName, fmt, STRINGS } from "@/lib/i18n/strings";
@@ -79,7 +80,7 @@ export default function TransitScreen() {
           className={stage === "sending" ? "rocket-flight" : "sprite-bob"}
         />
 
-        {stage === "launch" && <p className="stage-note font-pixel">...</p>}
+        {stage === "launch" && <p className="stage-note font-pixel">{"\u2026"}</p>}
 
         {stage === "pick" && (
           <div className="fade-in">
@@ -108,7 +109,10 @@ export default function TransitScreen() {
             <p className="signal-message">{message}</p>
             <p className="stage-note">{t.transit.waiting}</p>
             <div className="signal-track">
-              <div className="signal-fill" style={{ width: `${progress * 100}%` }} />
+              <div
+                className="signal-fill"
+                style={{ "--fill": String(progress) } as CSSProperties}
+              />
             </div>
             {showChinnu && (
               <div className="chinnu-pop fade-in">

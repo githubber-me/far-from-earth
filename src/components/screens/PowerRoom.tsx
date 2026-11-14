@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import type { CSSProperties } from "react";
 import { POWER_TOTAL, useGame } from "@/lib/game/store";
 import { useNarration, type NarrationLine } from "@/lib/audio/speech";
 import { STRINGS } from "@/lib/i18n/strings";
@@ -98,7 +99,10 @@ export default function PowerRoom() {
               <div className="alloc-mid">
                 <span className="alloc-label">{label}</span>
                 <div className="alloc-bar">
-                  <div className="alloc-fill" style={{ width: `${(alloc[key] / POWER_TOTAL) * 100}%` }} />
+                  <div
+                    className="alloc-fill"
+                    style={{ "--fill": String(alloc[key] / POWER_TOTAL) } as CSSProperties}
+                  />
                 </div>
               </div>
               <div className="alloc-btns">

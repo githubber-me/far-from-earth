@@ -70,7 +70,7 @@ export default function ArrivalScreen() {
           <ContinueButton label={t.arrival.btnContinue} onClick={() => nextFrom("chinnu")} />
         )}
         {stage === "sol" && (
-          <div className="fade-in sol-chip font-pixel">SOL 1 | ಸಾಲ್ 1</div>
+          <div className="fade-in sol-chip">Sol 1 · ಸಾಲ್ 1</div>
         )}
         {stage === "sol" && (
           <ContinueButton label={t.arrival.btnContinue} onClick={() => nextFrom("sol")} />

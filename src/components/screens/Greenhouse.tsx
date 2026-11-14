@@ -79,7 +79,7 @@ export default function Greenhouse() {
             scale={6}
             className="sprite-bob"
           />
-          <span className="gerald-tag">{lang === "kn" ? "ಜೆರಾಲ್ಡ್" : "GERALD"}</span>
+          <span className="gerald-tag">{lang === "kn" ? "\u0c9c\u0cc6\u0cb0\u0cbe\u0cb2\u0ccd\u0ca1\u0ccd" : "Gerald"}</span>
           <span className="stage-tag">{stageLabel}</span>
         </div>
 
