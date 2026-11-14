@@ -1,0 +1,34 @@
+"use client";
+
+import Image from "next/image";
+import { useGame } from "@/lib/game/store";
+import { STRINGS } from "@/lib/i18n/strings";
+
+export default function BootScreen() {
+  const lang = useGame((s) => s.lang);
+  const go = useGame((s) => s.go);
+  const t = STRINGS[lang];
+
+  return (
+    <button
+      type="button"
+      className="boot-screen"
+      onClick={() => go("boarding")}
+      aria-label={t.boot.tap}
+    >
+      <div className="boot-mascot">
+        <Image
+          src="/assets/mascot.png"
+          alt="Junior astronaut"
+          width={183}
+          height={400}
+          priority
+        />
+      </div>
+      <h1 className="boot-title font-pixel">{t.boot.title}</h1>
+      <p className="boot-sub">{t.boot.sub}</p>
+      <p className="boot-credit">{t.boot.credit}</p>
+      <p className="boot-tap font-pixel">{t.boot.tap}</p>
+    </button>
+  );
+}
