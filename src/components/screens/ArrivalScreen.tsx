@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useGame } from "@/lib/game/store";
 import { useNarration, type NarrationLine } from "@/lib/audio/speech";
 import { displayName, fmt, STRINGS } from "@/lib/i18n/strings";
-import { ASTRONAUT, DOME_ICON, PixelSprite } from "@/components/ui/Sprites";
+import { DOME_ICON, PixelSprite } from "@/components/ui/Sprites";
 import { MarsScene } from "@/components/ui/Scene";
 import { ContinueButton } from "@/components/ui/ChoiceCards";
 
@@ -55,7 +55,11 @@ export default function ArrivalScreen() {
         </div>
 
         <div className="astronaut-row">
-          <PixelSprite grid={ASTRONAUT} scale={5} className="sprite-bob" />
+          <img
+            src="/assets/astronaut-wave.webp"
+            alt="The kid astronaut waving hello"
+            className="astro-art sprite-bob"
+          />
           {stage !== "arrive" && (
             <div className="fade-in">
               <img

@@ -5,7 +5,7 @@ import { starsFor, useGame } from "@/lib/game/store";
 import { useNarration, type NarrationLine } from "@/lib/audio/speech";
 import { displayName, fmt, STRINGS } from "@/lib/i18n/strings";
 import { downloadCertificate } from "@/lib/game/certificate";
-import { ASTRONAUT_CELEBRATE, PixelSprite, STAR_ICON } from "@/components/ui/Sprites";
+import { PixelSprite, STAR_ICON } from "@/components/ui/Sprites";
 import { SpaceScene } from "@/components/ui/Scene";
 
 export default function Ceremony() {
@@ -13,6 +13,8 @@ export default function Ceremony() {
   const name = useGame((s) => s.name);
   const nameKn = useGame((s) => s.nameKn);
   const stormChoice = useGame((s) => s.stormChoice);
+  const stats = useGame((s) => s.stats);
+  const resources = useGame((s) => s.resources);
   const go = useGame((s) => s.go);
   const reset = useGame((s) => s.reset);
   const t = STRINGS[lang];
@@ -20,7 +22,7 @@ export default function Ceremony() {
 
   const [stage, setStage] = useState<"award" | "cert">("award");
 
-  const stars = starsFor(stormChoice);
+  const stars = starsFor(stormChoice, resources.dose);
   const stormBadge =
     stormChoice === "shields"
       ? t.ceremony.badgeShields
@@ -58,7 +60,11 @@ export default function Ceremony() {
     <SpaceScene className="screen-pad" bg="/assets/bg-space.webp">
       <div className="screen-content">
         <div className="astronaut-row">
-          <PixelSprite grid={ASTRONAUT_CELEBRATE} scale={5} className="sprite-bob" />
+          <img
+            src="/assets/astronaut-celebrate.webp"
+            alt="The kid astronaut celebrating"
+            className="astro-art sprite-bob"
+          />
           <img
             src="/assets/chinnu.png"
             alt="Chinnu the rover-bot"
@@ -92,6 +98,24 @@ export default function Ceremony() {
                   {b}
                 </span>
               ))}
+            </div>
+
+            <div className="stats-card">
+              <h3 className="lang-pick-title">{t.missionStats.title}</h3>
+              <ul className="stats-list">
+                <li>
+                  {stats.panelsCleaned} {t.missionStats.panels}
+                </li>
+                <li>
+                  {stats.plantsWatered} {t.missionStats.plants}
+                </li>
+                <li>
+                  {stats.pipesSolved} {t.missionStats.pipes}
+                </li>
+                <li>
+                  {stats.stormPulses.length} {t.missionStats.pulses}
+                </li>
+              </ul>
             </div>
 
             <div className="cert-actions">

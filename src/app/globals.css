@@ -1291,6 +1291,13 @@ button {
 
 /* ---------- Generated character art ---------- */
 
+.astro-art {
+  height: 200px;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(4px 5px 0 color-mix(in oklab, var(--color-shade) 70%, transparent));
+}
+
 .chinnu-art {
   height: 160px;
   width: auto;
@@ -1350,6 +1357,392 @@ button {
   border: var(--rule-bar) solid var(--color-accent-2);
   border-radius: var(--radius-card);
   padding: var(--space-2xs) var(--space-2xs);
+}
+
+/* ---------- Resource HUD ---------- */
+
+.hud-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.hud-res {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-2xs);
+  width: 100%;
+  margin-top: var(--space-2xs);
+}
+
+.res-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  background: var(--color-paper-2);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  padding: var(--space-2xs) var(--space-xs);
+  min-width: 0;
+}
+
+.res-icon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+  display: inline-flex;
+}
+
+.res-o2 .res-icon {
+  color: var(--color-crt-c);
+}
+
+.res-food .res-icon {
+  color: var(--color-accent-2);
+}
+
+.res-dose .res-icon {
+  color: var(--color-crt-r);
+}
+
+.res-mid {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xs);
+}
+
+.res-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--color-muted);
+}
+
+.res-bar {
+  height: 4px;
+  background: var(--color-paper-3);
+  border-radius: var(--radius-card);
+  overflow: clip;
+}
+
+.res-fill {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: var(--color-accent);
+  transform-origin: left;
+  transform: scaleX(var(--fill, 0));
+  transition: transform var(--dur-short) var(--ease-out);
+}
+
+.res-o2 .res-fill {
+  background: var(--color-crt-c);
+}
+
+.res-food .res-fill {
+  background: var(--color-accent-2);
+}
+
+.res-dose .res-fill {
+  background: var(--color-crt-r);
+}
+
+.res-value {
+  font-family: var(--font-display);
+  font-size: 11px;
+  color: var(--color-ink);
+  min-width: 2ch;
+  text-align: right;
+}
+
+.res-warn {
+  border-color: var(--color-crt-r);
+}
+
+.res-deltas {
+  position: absolute;
+  inset: auto;
+  top: calc(-1 * var(--space-md));
+  right: var(--space-2xs);
+  display: flex;
+}
+
+
+
+.delta-float {
+  font-family: var(--font-display);
+  font-size: 9px;
+  animation: deltaFloat 1.4s var(--ease-out) both;
+}
+
+.delta-good {
+  color: var(--color-accent-2);
+}
+
+.delta-bad {
+  color: var(--color-ink-2);
+}
+
+/* ---------- Task games ---------- */
+
+.task-instruct {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--color-ink-2);
+  margin: 0;
+}
+
+.panel-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-xs);
+  width: 100%;
+}
+
+.panel-cell {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  background: var(--color-paper-3);
+  color: var(--color-ink);
+  border: var(--rule-bar) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  overflow: clip;
+  padding: 0;
+  transition: translate var(--dur-micro) var(--ease-out);
+}
+
+.panel-cell:active {
+  translate: 0 2px;
+}
+
+.panel-cell:focus-visible {
+  outline: var(--rule-bar) solid var(--color-focus);
+}
+
+.panel-cell:not(.panel-clean) {
+  border-color: var(--color-crt-c);
+}
+
+.panel-dust {
+  position: absolute;
+  inset: 0;
+  background: var(--color-mars-2);
+  opacity: var(--dust, 0.7);
+  transition: opacity var(--dur-short) var(--ease-out);
+}
+
+.panel-clean {
+  border-color: var(--color-accent-2);
+  box-shadow: 3px 3px 0 var(--color-accent-2);
+}
+
+.panel-progress {
+  font-size: 11px;
+  color: var(--color-accent-2);
+  margin: 0;
+}
+
+.panel-game,
+.alloc-wrap,
+.water-game,
+.pipe-game,
+.pack-block,
+.wave-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+/* ---------- Watering game ---------- */
+
+.water-track {
+  position: relative;
+  width: 100%;
+  height: 22px;
+  background: var(--color-paper-2);
+  border: var(--rule-bar) solid var(--color-rule);
+  border-radius: var(--radius-card);
+}
+
+.water-zone {
+  position: absolute;
+  left: 38%;
+  width: 24%;
+  top: 0;
+  bottom: 0;
+  background: color-mix(in oklab, var(--color-accent-2) 40%, transparent);
+  border-left: var(--rule-bar) solid var(--color-accent-2);
+  border-right: var(--rule-bar) solid var(--color-accent-2);
+}
+
+.water-drop {
+  position: absolute;
+  top: 2px;
+  bottom: 2px;
+  left: 0;
+  width: 14px;
+  background: var(--color-crt-c);
+  border-radius: 50%;
+  animation: dropSweep 1.3s ease-in-out infinite alternate;
+}
+
+.water-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.pot-row {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.pot {
+  transition: transform var(--dur-short) var(--ease-out);
+  transform: scale(0.85);
+}
+
+.pot-grown {
+  transform: scale(1.05);
+}
+
+/* ---------- Pipe game ---------- */
+
+.pipe-board {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2xs);
+  width: 100%;
+  background: var(--color-paper-2);
+  border: var(--rule-bar) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  padding: var(--space-sm) var(--space-xl);
+}
+
+.pipe-cell {
+  aspect-ratio: 1;
+  background: var(--color-paper-3);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  color: var(--color-crt-c);
+  transition: rotate var(--dur-short) var(--ease-out), background-color var(--dur-micro) steps(1);
+}
+
+.pipe-cell:active {
+  background: var(--color-paper-3);
+}
+
+.pipe-flow {
+  color: var(--color-accent-2);
+  border-color: var(--color-accent-2);
+}
+
+.pipe-end {
+  position: absolute;
+  top: 38%;
+  width: var(--space-md);
+  height: var(--space-md);
+  background: var(--color-crt-c);
+  border-radius: 50%;
+}
+
+.pipe-in {
+  left: var(--space-2xs);
+}
+
+.pipe-out {
+  right: var(--space-2xs);
+  background: var(--color-accent-2);
+}
+
+/* ---------- Storm waves ---------- */
+
+.wave-block {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  width: 100%;
+}
+
+.wave-timer {
+  width: 100%;
+  height: 12px;
+  background: var(--color-paper-2);
+  border: var(--rule-bar) solid var(--color-crt-r);
+  border-radius: var(--radius-card);
+  overflow: clip;
+}
+
+.wave-fill {
+  height: 100%;
+  width: 100%;
+  background: var(--color-accent);
+  transform-origin: left;
+  transform: scaleX(var(--fill, 1));
+  transition: transform var(--dur-micro) linear;
+}
+
+.wave-2 .wave-fill {
+  background: var(--color-crt-r);
+}
+
+.wave-3 .wave-fill {
+  background: var(--color-accent-2);
+}
+
+.wave-name {
+  font-size: 12px;
+  color: var(--color-crt-r);
+  margin: 0;
+}
+
+.wave-brace {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+/* ---------- Mission stats ---------- */
+
+.stats-card {
+  width: 100%;
+  background: var(--color-paper-2);
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  color: var(--color-ink);
+  padding: var(--space-sm) var(--space-md);
+}
+
+.stats-list {
+  list-style: none;
+  margin: var(--space-2xs) 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2xs);
+}
+
+.stats-list li {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-ink-2);
+}
+
+@keyframes deltaFloat {
+  from { opacity: 0; transform: translateY(6px); }
+  25% { opacity: 1; }
+  to { opacity: 0; transform: translateY(-16px); }
+}
+
+@keyframes dropSweep {
+  from { transform: translateX(0); }
+  to { transform: translateX(var(--drop-travel, 300px)); }
 }
 
 /* ---------- Motion, ambient and reduced ---------- */

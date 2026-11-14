@@ -48,6 +48,17 @@ function drawMars(ctx: CanvasRenderingContext2D) {
   }
 }
 
+async function drawAstronaut(ctx: CanvasRenderingContext2D) {
+  const img = await loadImage("/assets/astronaut-celebrate.webp");
+  if (!img) {
+    drawPixelAstronaut(ctx);
+    return;
+  }
+  const h = 220;
+  const w = h * (img.width / img.height);
+  ctx.drawImage(img, 60, H - 106 - h + 30, w, h);
+}
+
 function drawPixelAstronaut(ctx: CanvasRenderingContext2D) {
   // Simple pixel-art astronaut, 12 by 16 cells at 4 px each
   const grid = [
@@ -123,7 +134,7 @@ export async function downloadCertificate(info: CertificateInfo) {
 
   drawStars(ctx);
   drawMars(ctx);
-  drawPixelAstronaut(ctx);
+  await drawAstronaut(ctx);
   await drawChinnu(ctx);
   drawBorder(ctx);
 

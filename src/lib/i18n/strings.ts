@@ -153,6 +153,56 @@ export interface Strings {
     voiceOn: string;
     voiceOff: string;
     continue: string;
+    resPower: string;
+    resO2: string;
+    resFood: string;
+    resDose: string;
+    solDay: string;
+  };
+  taskPower: {
+    title: string;
+    instruct: string;
+    doneAll: string;
+    pool: string;
+    clean: string;
+    dusty: string;
+  };
+  taskGreen: {
+    title: string;
+    instruct: string;
+    waterBtn: string;
+    good: string;
+    splash: string;
+    allGrown: string;
+    waterTag: string;
+  };
+  taskLife: {
+    title: string;
+    instruct: string;
+    solved: string;
+    rotate: string;
+  };
+  taskSol: {
+    packTitle: string;
+    light: string;
+    lightDesc: string;
+    heavy: string;
+    heavyDesc: string;
+    heavyRight: string;
+    lightGently: string;
+  };
+  stormPulse: {
+    wave1: string;
+    wave2: string;
+    wave3: string;
+    brace: string;
+  };
+  missionStats: {
+    title: string;
+    panels: string;
+    plants: string;
+    pipes: string;
+    pulses: string;
   };
   chinnu: {
     stowaway: string;
@@ -346,6 +396,56 @@ export const STRINGS: Record<Lang, Strings> = {
       voiceOn: "Voice on",
       voiceOff: "Voice off",
       continue: "Tap to continue",
+      resPower: "Power",
+      resO2: "Air",
+      resFood: "Food",
+      resDose: "Dose",
+      solDay: "Sol",
+    },
+    taskPower: {
+      title: "Clean the panels",
+      instruct: "Swipe the dust off every panel. Clean panels mean more watts for the whole outpost!",
+      doneAll: "All clean! Your batteries are full of sunshine.",
+      pool: "power pool",
+      clean: "clean",
+      dusty: "dusty",
+    },
+    taskGreen: {
+      title: "Water the garden",
+      instruct: "Tap Water when the drop is inside the green band. Good timing makes happy plants!",
+      waterBtn: "Water now",
+      good: "Perfect pour!",
+      splash: "Splash! Almost.",
+      allGrown: "The whole garden is watered. Gerald is cheering!",
+      waterTag: "water",
+    },
+    taskLife: {
+      title: "Connect the recycler",
+      instruct: "Tap the pipe pieces to turn them. Make a path from the tank to the crew!",
+      solved: "Water flows again! Every drop comes back to us.",
+      rotate: "tap to turn",
+    },
+    taskSol: {
+      packTitle: "Pack for tonight",
+      light: "Light gear",
+      lightDesc: "Fast and breezy. Best on a calm night.",
+      heavy: "Shield coat",
+      heavyDesc: "Slow and snug. Built for rough sun weather.",
+      heavyRight: "Smart read of the forecast. Tonight will not be calm.",
+      lightGently: "Hmm, look at the dust readings again. A calm sol would be right, but tonight is not one.",
+    },
+    stormPulse: {
+      wave1: "Wave 1: the dust wall",
+      wave2: "Wave 2: the radiation burst",
+      wave3: "Wave 3: the big one",
+      brace: "Brace in the shelter",
+    },
+    missionStats: {
+      title: "Mission stats",
+      panels: "panels cleaned",
+      plants: "plants watered",
+      pipes: "recycler fixed",
+      pulses: "storms weathered",
     },
     chinnu: {
       stowaway: "[excited] Is there room for one small bot?",
@@ -537,6 +637,56 @@ export const STRINGS: Record<Lang, Strings> = {
       voiceOn: "ಧ್ವನಿ ಆನ್",
       voiceOff: "ಧ್ವನಿ ಆಫ್",
       continue: "ಮುಂದುವರಿಸಲು ಟ್ಯಾಪ್ ಮಾಡಿ",
+      resPower: "ಪವರ್",
+      resO2: "ಗಾಳಿ",
+      resFood: "ಆಹಾರ",
+      resDose: "ಡೋಸ್",
+      solDay: "ಸಾಲ್",
+    },
+    taskPower: {
+      title: "ಪ್ಯಾನೆಲ್ ಒರೆಸಿ",
+      instruct: "ಪ್ರತಿ ಪ್ಯಾನೆಲ್ ಮೇಲಿನ ಧೂಳನ್ನು ಒರೆಸಿ ತೆಳು ಮಾಡಿ. ಸ್ವಚ್ಛ ಪ್ಯಾನೆಲ್ ಎಂದರೆ ಇಡೀ ಔಟ್‌ಪೋಸ್ಟ್‌ಗೆ ಹೆಚ್ಚು ವಿದ್ಯುತ್!",
+      doneAll: "ಎಲ್ಲವೂ ಸ್ವಚ್ಛ! ಬ್ಯಾಟರಿಗಳು ಬಿಸಿಲಿಂದ ತುಂಬಿವೆ.",
+      pool: "ಪವರ್ ಪೂಲ್",
+      clean: "ಸ್ವಚ್ಛ",
+      dusty: "ಧೂಳಿಟ್ಟದ್ದು",
+    },
+    taskGreen: {
+      title: "ತೋಟಕ್ಕೆ ನೀರು ಹಾಕಿ",
+      instruct: "ಹನಿ ಹಸಿರು ಪಟ್ಟೆಯೊಳಗೆ ಬರಿದಾಗ Water ಒತ್ತಿ. ಸರಿಯಾದ ಸಮಯದಲ್ಲಿ ಬಡಿದರೆ ಗಿಡಗಳು ಚೆನ್ನಾಗಿ ಬೆಳೆಯುತ್ತವೆ!",
+      waterBtn: "ಈಗ ನೀರು ಹಾಕಿ",
+      good: "ಪರ್‌ಫೆಕ್ಟ್ ನೀರು ಹಾಕೆ!",
+      splash: "ಚೆಲ್ಲಾಟ! ಸ್ವಲ್ಪ ಮುಂದು.",
+      allGrown: "ಇಡೀ ತೋಟಕ್ಕೆ ನೀರು ಸಿಕ್ತು. ಜೆರಾಲ್ಡ್ ಖುಷಿ ಪಡುತ್ತಿದೆ!",
+      waterTag: "ನೀರು",
+    },
+    taskLife: {
+      title: "ರೀಸೈಕ್ಲರ್ ಜೋಡಿಸಿ",
+      instruct: "ಬೊಂಬೆಗಂಬು ತುಂಡುಗಳನ್ನು ಟ್ಯಾಪ್ ಮಾಡಿ ತಿರುಗಿಸಿ. ಟ್ಯಾಂಕರ್‌ನಿಂದ ತಂಡದವರೆಗೆ ನೀರಿನ ದಾರಿ ಮಾಡಿ!",
+      solved: "ನೀರು ಮತ್ತೆ ಹರಿಯುತ್ತಿದೆ! ಪ್ರತಿ ಹನಿಯೂ ನಮಗೇ ಮರಳಿ ಬರುತ್ತದೆ.",
+      rotate: "ತಿರುಗಿಸಲು ಟ್ಯಾಪ್",
+    },
+    taskSol: {
+      packTitle: "ಇಂದು ರಾತ್ರಿಗೆ ಸಿದ್ಧತೆ",
+      light: "ಹಗುರ ಸಾಮಗ್ರಿ",
+      lightDesc: "ವೇಗವಾಗಿ ಚಲಿಸಬಹುದು. ಶಾಂತ ರಾತ್ರಿಗೆ ಒಳ್ಳೆಯದು.",
+      heavy: "ಶೀಲ್ಡ್ ಕೋಟ್",
+      heavyDesc: "ನಿಧಾನವಾಗಿ ಸರಿಸುತ್ತದೆ. ಕೆಟ್ಟ ಸೂರ್ಯ ಹವಾಮಾನಕ್ಕೆ ಸಿದ್ಧ.",
+      heavyRight: "ಮುನ್ಸೂಚನೆ ಓದಿದ್ದು ಚೆನ್ನಾಗಿದೆ. ಇಂದು ರಾತ್ರಿ ಶಾಂತವಾಗುವುದಿಲ್ಲ.",
+      lightGently: "ಹ್ಮ, ಧೂಳಿನ ಮಾಪನವನ್ನು ಮತ್ತೊಮ್ಮೆ ನೋಡಿ. ಶಾಂತ ಸಾಲಿನ್ದ ದಿನಕ್ಕೆ ಸರಿಯಾದದ್ದು, ಆದ್ರೆ ಇಂದು ರಾತ್ರಿ ಅಲ್ಲ.",
+    },
+    stormPulse: {
+      wave1: "ಅಲೆ ೧: ಧೂಳಿನ ಗೋಡೆ",
+      wave2: "ಅಲೆ ೨: ವಿಕಿರಣ ಸಡಿಲ",
+      wave3: "ಅಲೆ ೩: ಅತಿ ದೊಡ್ಡದು",
+      brace: "ಆಶ್ರಯದಲ್ಲಿರಿ",
+    },
+    missionStats: {
+      title: "ಮಿಷನ್ ಅಂಕಣ",
+      panels: "ಪ್ಯಾನೆಲ್ ಸ್ವಚ್ಛ",
+      plants: "ಗಿಡಗಳಿಗೆ ನೀರು",
+      pipes: "ರೀಸೈಕ್ಲರ್ ಸರಿಪಡಿಸಿದೆ",
+      pulses: "ಬಿರುಗಾಳಿ ಎದುರಿಸಿದೆ",
     },
     chinnu: {
       stowaway: "[excited] ಒಂದು ಚಿಕ್ಕ ಬಾಟ್‌ಗೆ ಜಾಗ ಇದೆಯಾ?",

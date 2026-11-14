@@ -1,52 +1,28 @@
 # Mission: Dhruva Build Status
 
-Checkpointed state of the NASA Space Apps 2026 Junior Astronaut game.
-Everything in this list is done and compiles clean (`npx tsc --noEmit`).
+Current state of the NASA Space Apps 2026 Junior Astronaut game.
+Everything compiles clean (`npx tsc --noEmit`) and the full playthrough is verified end to end.
 
-## Done
+## Shipped
 
-- Next.js 16 + React 19 + Tailwind 4 + Zustand scaffolded at repo root
-- API keys live in `.env.local` (gitignored): `SARVAM_API_KEY`, `ELEVENLABS_API_KEY`
-- TTS tested and working:
-  - Dhruva (narrator): Sarvam `bulbul:v4-flash`, speakers `aparna_en_companion` (EN) and `chaitra_kn_conversation` (KN)
-  - Chinnu (sidekick): ElevenLabs `eleven_v3`, voice `FGY2WhTYpPnrIDTdsKH5` (Laura)
-  - Audition wavs in `/private/var/folders/qg/1rrmyc1527xc52nk9k3hd1bc0000gn/T/opencode/tts-tests/`
-- `src/app/api/tts/route.ts`: unified proxy with disk cache in `.cache/tts/` (gitignored)
-- Full bilingual script (EN + KN) in `src/lib/i18n/strings.ts`, all lines approved
-- Latin to Kannada name transliteration in `src/lib/i18n/transliterate.ts`
-- Real NASA data + source citations in `src/lib/data/nasa.ts`
-- Game state store in `src/lib/game/store.ts` (station visits, choices, storm logic)
-- Narration queue + captions in `src/lib/audio/speech.ts`
-- Canvas certificate generator in `src/lib/game/certificate.ts`
-- Pixel sprite system in `src/components/ui/Sprites.tsx` (astronaut, Chinnu, plants, icons)
-- Scene backgrounds + caption bar + choice cards in `src/components/ui/`
-- Screens complete: Boot, Boarding, Transit, Arrival, StationMap, PowerRoom, Greenhouse, LifeSupport, SolReport
-- Mascot chroma keyed at `public/assets/mascot.png`
-- grill-me skill installed at `.agents/skills/grill-me`
-
-## Remaining
-
-1. Screens still to write in `src/components/screens/`:
-   - `Storm.tsx` (red alert scene, Dhruva lines + Chinnu sneeze/hide, the 3 trade-off choices)
-   - `Recovery.tsx` (choice matched outcome, Twins Study science card, Chinnu recover line)
-   - `Ceremony.tsx` (stars, badges, certificate download via `downloadCertificate`, replay, sources)
-   - `Sources.tsx` (list from `SOURCES` in nasa.ts)
-2. `src/components/Game.tsx`: phase router + HUD (lang toggle, voice toggle) + CaptionBar mount
-3. `src/app/page.tsx`: render Game (currently still default scaffold page)
-4. `src/app/layout.tsx`: swap Geist fonts for Press Start 2P + Noto Sans Kannada, set metadata title
-5. `src/app/globals.css`: all game styles (scene classes, sprites animations, caption bar, buttons, station grid, storm effects). Currently default scaffold CSS
-6. Run `npm run dev`, full playthrough test in browser, EN/KN toggle, TTS live check
-7. README for judges (run instructions, dataset table, no em dashes)
-8. Git commit
+- Next.js 16 + React 19 + Tailwind 4 + Zustand at repo root; `npm run dev` on :3000
+- Full journey: boot, boarding, transit, arrival, free-order map, storm, recovery, ceremony, sources
+- Bilingual EN + KN everywhere, name capture with Latin to Kannada transliteration, live language toggle
+- Voices: Dhruva via Sarvam bulbul:v4-flash (aparna_en_companion + chaitra_kn_conversation), Chinnu via ElevenLabs eleven_v3 (voice FGY2WhTYpPnrIDTdsKH5), 11 approved lines. `/api/tts` proxies both, disk cache at os tmpdir
+- Gamification: live resource HUD (power o2 food dose) with floating deltas, panel cleaning in Power Room, watering rhythm game in Greenhouse, pipe puzzle in Life Support, pack-for-tonight choice in Sol Report, three timed storm waves, mission stats in Ceremony
+- Art pipeline: Codex imagegen storybook style. Backgrounds as .webp (54 to 176KB) on every screen, character stickers with alpha for Chinnu, Gerald, three astronaut poses; certificate draws astronaut and Chinnu art
+- Skills installed: grill-me, hallmark at .agents/skills (sloplint: 0 FAIL)
 
 ## Standing rules
 
-- No em dashes anywhere in the repo or game text
-- Chinnu's 11 lines are locked verbatim (see chat approval, user corrected some)
-- Dhruva content and all Kannada quality gated by the agent, not the user
-- No auth, no data storage, mobile first, finite 8 minute journey
-- Certificate is canvas PNG, client side, bilingual
+- No em dashes in repo or game text
+- Chinnu spoken lines (ElevenLabs) are user gated and locked
+- Dhruva content and Kannada quality are agent gated
+- No auth, no storage except language preference in localStorage
+- Mobile first
 
-## How to resume
+## Known nexts
 
-Open a coding agent in this repo and say: "Resume building Mission: Dhruva from docs/RESUME.md". `npm run dev` works today (shows default scaffold page). `npx tsc --noEmit` passes.
+1. Vercel deploy (keys are server side, ready)
+2. Optional 3D diorama at arrival and storm (react-three-fiber), spec approved but deferred
+3. Optional: downloadable certificate share card, more waves per run for replay depth

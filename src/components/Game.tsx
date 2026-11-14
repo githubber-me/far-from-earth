@@ -18,6 +18,8 @@ import Storm from "@/components/screens/Storm";
 import Recovery from "@/components/screens/Recovery";
 import Ceremony from "@/components/screens/Ceremony";
 import Sources from "@/components/screens/Sources";
+import { HudResources } from "@/components/ui/HudResources";
+import { allStationsDone } from "@/lib/game/store";
 
 function VoiceOnIcon() {
   return (
@@ -44,6 +46,8 @@ export default function Game() {
   const setLang = useGame((s) => s.setLang);
   const voiceOn = useGame((s) => s.voiceOn);
   const toggleVoice = useGame((s) => s.toggleVoice);
+  const visits = useGame((s) => s.visits);
+  const stats = useGame((s) => s.stats);
 
   useEffect(() => {
     try {
@@ -68,6 +72,7 @@ export default function Game() {
   }, [voiceOn]);
 
   const t = STRINGS[lang];
+  const sol = stats.stormPulses.length > 0 ? "03" : allStationsDone(visits) ? "02" : "01";
 
   const screen = (() => {
     switch (phase) {
@@ -106,29 +111,34 @@ export default function Game() {
     <div className="game-root">
       {phase !== "boot" && (
         <div className="hud">
-          <div className="hud-tele">
-            <span>Sol 01</span>
-            <span className="hud-tele-sep" aria-hidden="true" />
-            <span>Jezero station</span>
+          <div className="hud-top">
+            <div className="hud-tele">
+              <span>
+                {t.hud.solDay} {sol}
+              </span>
+              <span className="hud-tele-sep" aria-hidden="true" />
+              <span>Jezero station</span>
+            </div>
+            <div className="hud-actions">
+              <button
+                type="button"
+                className="hud-btn hud-lang"
+                onClick={() => setLang(lang === "en" ? "kn" : "en")}
+              >
+                {lang === "en" ? "\u0c95\u0ca8\u0ccd\u0ca8\u0ca1" : "EN"}
+              </button>
+              <button
+                type="button"
+                className="hud-btn"
+                onClick={toggleVoice}
+                aria-pressed={voiceOn}
+              >
+                {voiceOn ? <VoiceOnIcon /> : <VoiceOffIcon />}
+                <span>{voiceOn ? t.hud.voiceOn : t.hud.voiceOff}</span>
+              </button>
+            </div>
           </div>
-          <div className="hud-actions">
-            <button
-              type="button"
-              className="hud-btn hud-lang"
-              onClick={() => setLang(lang === "en" ? "kn" : "en")}
-            >
-              {lang === "en" ? "\u0c95\u0ca8\u0ccd\u0ca8\u0ca1" : "EN"}
-            </button>
-            <button
-              type="button"
-              className="hud-btn"
-              onClick={toggleVoice}
-              aria-pressed={voiceOn}
-            >
-              {voiceOn ? <VoiceOnIcon /> : <VoiceOffIcon />}
-              <span>{voiceOn ? t.hud.voiceOn : t.hud.voiceOff}</span>
-            </button>
-          </div>
+          <HudResources />
         </div>
       )}
       {screen}

@@ -30,7 +30,7 @@ class Narrator {
   speak(line: NarrationLine) {
     if (!this.enabled) return;
     this.queue.push(line);
-    if (!this.playing) void this.pump();
+    if (!this.playing) queueMicrotask(() => this.pump());
   }
 
   cancel() {
@@ -113,11 +113,13 @@ export function useNarration(lines: NarrationLine[], key: string) {
 
   useEffect(() => {
     narrator.cancel();
-    setCaption(null);
+    queueMicrotask(() => setCaption(null));
     if (!voiceOn) {
       const first = lines[0];
       if (first) {
-        setCaption({ speaker: first.speaker, text: stripTags(first.text) });
+        queueMicrotask(() =>
+          setCaption({ speaker: first.speaker, text: stripTags(first.text) }),
+        );
       }
       return;
     }
