@@ -39,7 +39,7 @@ export function HudResources() {
         const value = resources[key];
         const pct = Math.round((value / max) * 100);
         const warn =
-          key === "dose" ? value >= 50 : value <= 25;
+          key === "dose" ? value >= 50 : pct <= 25;
         return (
           <div key={key} className={`res-item ${className} ${warn ? "res-warn" : ""}`}>
             <span className="res-icon">{icon({ width: 16, height: 16 })}</span>

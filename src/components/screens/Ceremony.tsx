@@ -1,7 +1,8 @@
 "use client";
 
+import { missionStars } from "@/lib/game/mission";
 import { useMemo, useState } from "react";
-import { starsFor, useGame } from "@/lib/game/store";
+import { useGame } from "@/lib/game/store";
 import { useNarration, type NarrationLine } from "@/lib/audio/speech";
 import { displayName, fmt, STRINGS } from "@/lib/i18n/strings";
 import { downloadCertificate } from "@/lib/game/certificate";
@@ -20,9 +21,9 @@ export default function Ceremony() {
   const t = STRINGS[lang];
   const who = displayName(lang, name, nameKn);
 
-  const [stage, setStage] = useState<"award" | "cert">("award");
+  const [stage, setStage] = useState<"award" | "cert">("cert");
 
-  const stars = starsFor(stormChoice, resources.dose);
+  const stars = missionStars(resources);
   const stormBadge =
     stormChoice === "shields"
       ? t.ceremony.badgeShields
@@ -59,6 +60,8 @@ export default function Ceremony() {
   return (
     <SpaceScene className="screen-pad" bg="/assets/bg-space.webp">
       <div className="screen-content">
+        <h1 className="screen-title">{lang === "en" ? "Curiosity looks good on you." : "ಕುತೂಹಲ ನಿಮಗೆ ಚೆನ್ನಾಗಿ ಹೊಂದುತ್ತದೆ."}</h1>
+        <p>{lang === "en" ? "You experimented, solved problems and learned why your choices matter." : "ನೀವು ಪ್ರಯೋಗಿಸಿ, ಸಮಸ್ಯೆ ಪರಿಹರಿಸಿ, ನಿರ್ಧಾರಗಳ ಮಹತ್ವ ಕಲಿತಿರಿ."}</p>
         <div className="astronaut-row">
           <img
             src="/assets/astronaut-celebrate.webp"
@@ -100,11 +103,12 @@ export default function Ceremony() {
               ))}
             </div>
 
+            <p className="simulation-note">{lang === "en" ? "Stars: one for air ≥55 and exposure <40; one for food ≥35; one for power ≥3. Every mission is a chance to learn." : "ನಕ್ಷತ್ರಗಳು: ಗಾಳಿ ≥55 ಮತ್ತು ಪ್ರಭಾವ <40; ಆಹಾರ ≥35; ಶಕ್ತಿ ≥3. ಪ್ರತಿ ಯಾತ್ರೆ ಕಲಿಯುವ ಅವಕಾಶ."}</p>
             <div className="stats-card">
               <h3 className="lang-pick-title">{t.missionStats.title}</h3>
               <ul className="stats-list">
                 <li>
-                  {stats.panelsCleaned} {t.missionStats.panels}
+                  {lang === "en" ? "Energy plan tested" : "ಶಕ್ತಿ ಯೋಜನೆ ಪರೀಕ್ಷಿಸಲಾಗಿದೆ"}
                 </li>
                 <li>
                   {stats.plantsWatered} {t.missionStats.plants}

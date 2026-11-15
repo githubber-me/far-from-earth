@@ -1,96 +1,30 @@
-"use client";
-
-import { useMemo } from "react";
-import { allStationsDone, useGame } from "@/lib/game/store";
-import { useNarration, type NarrationLine } from "@/lib/audio/speech";
-import { displayName, fmt, STRINGS } from "@/lib/i18n/strings";
-import type { StationId } from "@/lib/game/types";
-import {
-  CHINNU,
-  DOME_ICON,
-  HEART_ICON,
-  PixelSprite,
-  SUN_ICON,
-  THERMO_ICON,
-} from "@/components/ui/Sprites";
-import { MarsScene } from "@/components/ui/Scene";
+'use client';
+import { allStationsDone, useGame } from '@/lib/game/store';
+import { STATIONS, words } from '@/lib/game/mission';
+import { STRINGS, displayName } from '@/lib/i18n/strings';
 
 export default function StationMap() {
-  const lang = useGame((s) => s.lang);
-  const name = useGame((s) => s.name);
-  const nameKn = useGame((s) => s.nameKn);
-  const visits = useGame((s) => s.visits);
-  const visit = useGame((s) => s.visit);
-  const go = useGame((s) => s.go);
+  const { lang, name, nameKn, visits, go } = useGame();
+  const w = (en: string, kn: string) => words(lang, en, kn);
   const t = STRINGS[lang];
-  const who = displayName(lang, name, nameKn);
+  const count = STATIONS.filter(id => visits[id] > 0).length;
   const ready = allStationsDone(visits);
-
-  const lines = useMemo<NarrationLine[]>(() => {
-    if (ready) {
-      return [{ id: "map.ready", speaker: "dhruva", text: t.map.stormReady }];
-    }
-    if (visits.power > 0 || visits.greenhouse > 0 || visits.life > 0 || visits.sol > 0) {
-      return [{ id: "map.warn", speaker: "dhruva", text: t.sol.dhruvaDustWarn }];
-    }
-    return [];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ready, visits, lang]);
-
-  useNarration(lines, `map-${ready}-${visits.power}${visits.greenhouse}${visits.life}${visits.sol}-${lang}`);
-
-  const stations: { id: StationId; label: string; icon: string[] }[] = [
-    { id: "power", label: t.map.power, icon: SUN_ICON },
-    { id: "greenhouse", label: t.map.greenhouse, icon: DOME_ICON },
-    { id: "life", label: t.map.life, icon: HEART_ICON },
-    { id: "sol", label: t.map.sol, icon: THERMO_ICON },
+  const descriptions = [
+    w('Split a limited supply. Keep every system running.', 'ಸೀಮಿತ ಶಕ್ತಿ ಹಂಚಿ. ಎಲ್ಲಾ ವ್ಯವಸ್ಥೆಗಳನ್ನು ನಡೆಸಿ.'),
+    w('Experiment with water and light. Grow your food.', 'ನೀರು ಮತ್ತು ಬೆಳಕಿನ ಪ್ರಯೋಗ ಮಾಡಿ. ಆಹಾರ ಬೆಳೆಸಿ.'),
+    w('Repair the pipes. Make every drop count.', 'ಪೈಪ್ ಸರಿಪಡಿಸಿ. ಪ್ರತಿ ಹನಿಯನ್ನು ಉಳಿಸಿ.'),
+    w('Read the weather. Prepare for what comes next.', 'ಹವಾಮಾನ ತಿಳಿಯಿರಿ. ಮುಂದಿನ ಸವಾಲಿಗೆ ಸಿದ್ಧರಾಗಿ.'),
   ];
-
-  return (
-    <MarsScene className="screen-pad" bg="/assets/bg-outpost.webp">
-      <div className="screen-content">
-        <h2 className="screen-title font-pixel">{t.map.title}</h2>
-        <p className="map-commander">{fmt(t.map.commander, { name: who })}</p>
-
-        <div className="station-grid">
-          {stations.map(({ id, label, icon }) => {
-            const done = visits[id] > 0;
-            return (
-              <button
-                key={id}
-                type="button"
-                className={`station-card ${done ? "station-done" : ""}`}
-                onClick={() => {
-                  visit(id);
-                  go(id);
-                }}
-              >
-                <PixelSprite grid={icon} scale={4} />
-                <span className="station-name">{label}</span>
-                {done ? (
-                  <span className="station-badge">
-                    {t.map.done} {visits[id] > 1 ? `x${visits[id]}` : ""}
-                  </span>
-                ) : (
-                  <span className="station-visit">{t.map.visit}</span>
-                )}
-              </button>
-            );
-          })}
-        </div>
-
-        {!ready && <p className="storm-note font-pixel">{t.map.stormWarning}</p>}
-
-        {ready && (
-          <button type="button" className="btn-storm" onClick={() => go("storm")}>
-            {t.map.btnStorm} <span aria-hidden="true">&#9889;</span>
-          </button>
-        )}
-
-        <div className="map-chinnu">
-          <PixelSprite grid={CHINNU} scale={4} className="sprite-bob" />
-        </div>
-      </div>
-    </MarsScene>
-  );
+  const icons = ['↯', '❋', '◉', '☼'];
+  return <main className="mission-dashboard">
+    <div className="dashboard-title"><div><span className="eyebrow">{w('YOUR FIRST SOL ON MARS', 'ಮಂಗಳದ ಮೊದಲ ದಿನ')}</span><h1>{w('A world worth caring for.', 'ಕಾಳಜಿಗೆ ಅರ್ಹವಾದ ಜಗತ್ತು.')}</h1><p>{w(`Welcome, ${displayName(lang, name, nameKn)}. Get your outpost ready for the storm.`, `${displayName(lang, name, nameKn)}, ಸ್ವಾಗತ. ಬಿರುಗಾಳಿಗೆ ನೆಲೆಯನ್ನು ಸಿದ್ಧಗೊಳಿಸಿ.`)}</p></div><div className="mission-progress"><strong>{count}<small>/4</small></strong><span>{w('systems prepared', 'ವ್ಯವಸ್ಥೆಗಳು ಸಿದ್ಧ')}</span></div></div>
+    <div className="dashboard-layout">
+      <section className="outpost-view"><img src="/assets/generated/outpost.webp" alt={w('Your Mars outpost', 'ನಿಮ್ಮ ಮಂಗಳ ನೆಲೆ')}/><span className="map-tag">JEZERO STATION</span><div className="map-status"><span className="status-dot"/>{ready ? w('Outpost ready. Your decisions come next.', 'ನೆಲೆ ಸಿದ್ಧ. ಮುಂದಿನ ನಿರ್ಧಾರ ನಿಮ್ಮದು.') : w('Explore the systems. Build your understanding.', 'ವ್ಯವಸ್ಥೆಗಳನ್ನು ಅನ್ವೇಷಿಸಿ. ತಿಳುವಳಿಕೆ ಬೆಳೆಸಿ.')}</div></section>
+      <section className="mission-tasks" aria-label={w('Preparation tasks', 'ಸಿದ್ಧತಾ ಕಾರ್ಯಗಳು')}>
+        {STATIONS.map((id, i) => <button key={id} className={`mission-task ${visits[id] ? 'task-complete' : ''}`} onClick={() => go(id)}><span className="task-symbol" aria-hidden="true">{icons[i]}</span><span><small>{visits[id] ? w('COMPLETE · EXPLORE AGAIN', 'ಪೂರ್ಣ · ಮತ್ತೆ ನೋಡಿ') : `${w('EXPERIMENT', 'ಪ್ರಯೋಗ')} 0${i+1}`}</small><strong>{t.map[id]}</strong><span className="task-description">{descriptions[i]}</span></span><span className="task-arrow" aria-hidden="true">{visits[id] ? '✓' : '↗'}</span></button>)}
+      </section>
+    </div>
+    <div className="dashboard-bottom"><div><span className="eyebrow">{w('YOUR NEXT CHALLENGE', 'ಮುಂದಿನ ಸವಾಲು')}</span><h2>{w('A storm will test your choices.', 'ಬಿರುಗಾಳಿ ನಿಮ್ಮ ನಿರ್ಧಾರಗಳನ್ನು ಪರೀಕ್ಷಿಸುತ್ತದೆ.')}</h2><p>{ready ? w('Your power plan and preparation will change what happens. Take your time and think it through.', 'ನಿಮ್ಮ ಶಕ್ತಿ ಯೋಜನೆ ಫಲಿತಾಂಶ ಬದಲಿಸುತ್ತದೆ. ಸಮಯ ತೆಗೆದುಕೊಂಡು ಯೋಚಿಸಿ.') : w('Complete all four experiments to unlock the storm. You can revisit your decisions before you begin.', 'ಬಿರುಗಾಳಿಗೆ ಮುನ್ನ ನಾಲ್ಕೂ ಪ್ರಯೋಗಗಳನ್ನು ಪೂರ್ಣಗೊಳಿಸಿ. ನಿರ್ಧಾರಗಳನ್ನು ಬದಲಾಯಿಸಬಹುದು.')}</p></div><button className="launch-button" disabled={!ready} onClick={() => go('storm')}>{w('Face the storm', 'ಬಿರುಗಾಳಿ ಎದುರಿಸಿ')} <span aria-hidden="true">↗</span></button></div>
+    <p className="simulation-note">{w('Learning simulation · Resource values are game units, not real engineering measurements.', 'ಕಲಿಕೆಯ ಮಾದರಿ · ಸಂಪನ್ಮೂಲಗಳು ಆಟದ ಘಟಕಗಳು, ನಿಜವಾದ ಅಳತೆಗಳಲ್ಲ.')}</p>
+  </main>;
 }

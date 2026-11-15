@@ -1,179 +1,37 @@
-"use client";
-
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useGame } from "@/lib/game/store";
-import { useNarration, type NarrationLine } from "@/lib/audio/speech";
-import { displayName, fmt, STRINGS } from "@/lib/i18n/strings";
-import type { Crop } from "@/lib/game/types";
-import {
-  CHINNU,
-  PixelSprite,
-  plantSprite,
-  PLANT_FROZEN,
-} from "@/components/ui/Sprites";
-import { MarsScene } from "@/components/ui/Scene";
-import { ChoiceCard } from "@/components/ui/ChoiceCards";
-
-type Stage = "pick" | "water" | "done";
-
-const POTS = 4;
+'use client';
+import { useState } from 'react';
+import { useGame } from '@/lib/game/store';
+import { CROP_NEEDS, growCrop, words } from '@/lib/game/mission';
+import type { Crop } from '@/lib/game/types';
+import { MarsScene } from '@/components/ui/Scene';
 
 export default function Greenhouse() {
-  const lang = useGame((s) => s.lang);
-  const name = useGame((s) => s.name);
-  const nameKn = useGame((s) => s.nameKn);
-  const crop = useGame((s) => s.crop);
-  const setCrop = useGame((s) => s.setCrop);
-  const setCaption = useGame((s) => s.setCaption);
-  const applyDelta = useGame((s) => s.applyDelta);
-  const bumpStat = useGame((s) => s.bumpStat);
-  const stormChoice = useGame((s) => s.stormChoice);
-  const visits = useGame((s) => s.visits);
-  const go = useGame((s) => s.go);
-  const t = STRINGS[lang];
-  const who = displayName(lang, name, nameKn);
-
-  const [stage, setStage] = useState<Stage>(crop ? "water" : "pick");
-  const [growth, setGrowth] = useState<number[]>(Array(POTS).fill(0));
-  const waterNeeded = POTS;
-  const watered = growth.filter((g) => g > 0).length;
-  const trackRef = useRef<HTMLDivElement>(null);
-  const dropRef = useRef<HTMLDivElement>(null);
-  const zoneRef = useRef<HTMLDivElement>(null);
-  const [dropTravel, setDropTravel] = useState(300);
-
-  useEffect(() => {
-    if (stage === "water" && trackRef.current) {
-      setDropTravel(trackRef.current.clientWidth - 14);
-    }
-  }, [stage]);
-
-  const lines = useMemo<NarrationLine[]>(() => {
-    if (crop) {
-      return [
-        { id: "greenhouse.grow", speaker: "dhruva", text: fmt(t.greenhouse.dhruvaGrow, { name: who }) },
-      ];
-    }
-    return [
-      { id: "greenhouse.dhruva1", speaker: "dhruva", text: t.greenhouse.dhruva1 },
-      { id: "greenhouse.dhruva2", speaker: "dhruva", text: fmt(t.greenhouse.dhruva2, { name: who }) },
-    ];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [crop, lang]);
-
-  useNarration(lines, `greenhouse-${crop ? "have" : "none"}-${lang}`);
-
-  const crops: { id: Crop; label: string; icon: string[] }[] = [
-    { id: "tomatoes", label: t.greenhouse.tomatoes, icon: plantSprite("tomatoes", 2) },
-    { id: "potatoes", label: t.greenhouse.potatoes, icon: plantSprite("potatoes", 2) },
-    { id: "sunflowers", label: t.greenhouse.sunflowers, icon: plantSprite("sunflowers", 2) },
-  ];
-
-  function pick(id: Crop) {
-    setCrop(id);
-    setCaption({ speaker: "chinnu", text: t.chinnu.gerald });
-    setStage("water");
+  const { lang, crop, setCrop, alloc, visits, visit, applyDelta, bumpStat, go } = useGame();
+  const [water, setWater] = useState(1);
+  const [tank, setTank] = useState(6);
+  const [results,setResults] = useState<ReturnType<typeof growCrop>[]>([]);
+  const [running,setRunning] = useState(false);
+  const w=(en:string,kn:string)=>words(lang,en,kn);
+  const done = visits.greenhouse > 0;
+  const crops: {id:Crop;name:string}[]=[{id:'tomatoes',name:w('Tomatoes','ಟೊಮ್ಯಾಟೊ')},{id:'potatoes',name:w('Potatoes','ಆಲೂಗಡ್ಡೆ')},{id:'sunflowers',name:w('Sunflowers','ಸೂರ್ಯಕಾಂತಿ')}];
+  const last=results.at(-1);
+  function grow(){
+    if(!crop || running || results.length>=3 || done)return;
+    setRunning(true);
+    const amount = Math.min(water, tank);
+    const result=growCrop(crop,amount,alloc.green);
+    setTank(tank-amount); setResults([...results,result]); applyDelta({food:result.food});
+    if(result.watered&&result.lit)bumpStat('plantsWatered');
+    setRunning(false);
   }
-
-  function pour() {
-    const drop = dropRef.current;
-    const zone = zoneRef.current;
-    const track = trackRef.current;
-    if (!drop || !zone || !track) return;
-    const d = drop.getBoundingClientRect();
-    const z = zone.getBoundingClientRect();
-    const inZone = d.left + d.width / 2 >= z.left && d.left + d.width / 2 <= z.left + z.width;
-    const pot = growth.findIndex((g) => g === 0);
-    if (pot === -1) return;
-    setGrowth((prev) => {
-      const next = [...prev];
-      next[pot] = Math.min(2, next[pot] + 1);
-      return next;
-    });
-    if (inZone) {
-      applyDelta({ food: 8 });
-      bumpStat("plantsWatered");
-      setCaption({ speaker: "chinnu", text: t.taskGreen.good });
-    } else {
-      applyDelta({ food: 1 });
-      setCaption({ speaker: "chinnu", text: t.taskGreen.splash });
-    }
-  }
-
-  const frozen = stormChoice === "shields";
-
-  return (
-    <MarsScene className="screen-pad" bg="/assets/bg-greenhouse.webp">
-      <div className="screen-content">
-        <h2 className="screen-title font-pixel">{t.map.greenhouse}</h2>
-
-        <div className="plant-stage">
-          {frozen ? (
-            <PixelSprite grid={PLANT_FROZEN} scale={5} className="sprite-bob" />
-          ) : (
-            <div className="pot-row">
-              {growth.map((g, i) => (
-                <div key={i} className={`pot ${g > 0 ? "pot-grown" : ""}`}>
-                  <PixelSprite
-                    grid={plantSprite(crop ?? "tomatoes", g as 0 | 1 | 2)}
-                    scale={4}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-          <span className="gerald-tag">
-            {lang === "kn" ? "\u0c9c\u0cc6\u0cb0\u0cbe\u0cb2\u0ccd\u0ca1\u0ccd" : "Gerald"}
-          </span>
-        </div>
-
-        {stage === "pick" && (
-          <div className="fade-in">
-            <div className="choice-grid">
-              {crops.map(({ id, label, icon }) => (
-                <ChoiceCard key={id} title={label} icon={<PixelSprite grid={icon} scale={4} />} onClick={() => pick(id)} />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {stage === "water" && !frozen && (
-          <div className="fade-in water-game">
-            <p className="task-instruct">{t.taskGreen.instruct}</p>
-            <div className="water-track" ref={trackRef}>
-              <div className="water-zone" ref={zoneRef} />
-              <div className="water-drop" ref={dropRef} style={{ "--drop-travel": `${dropTravel}px` } as React.CSSProperties} />
-            </div>
-            <div className="water-actions">
-              <button type="button" className="btn-main" onClick={pour} disabled={watered >= waterNeeded}>
-                {t.taskGreen.waterBtn}
-              </button>
-              <span className="panel-progress font-pixel">
-                {watered}/{waterNeeded} {t.taskGreen.waterTag}
-              </span>
-            </div>
-            {watered >= waterNeeded && (
-              <div className="fade-in">
-                <p className="task-instruct">{t.taskGreen.allGrown}</p>
-                <button type="button" className="btn-main" onClick={() => setStage("done")}>
-                  {t.hud.continue}
-                </button>
-              </div>
-            )}
-          </div>
-        )}
-
-        {(stage === "done" || frozen) && (
-          <div className="fade-in">
-            <div className="chinnu-pop">
-              <PixelSprite grid={CHINNU} scale={4} className="sprite-bob" />
-            </div>
-            <button type="button" className="btn-main" onClick={() => go("map")}>
-              {t.map.title} <span aria-hidden="true">&#9654;</span>
-            </button>
-          </div>
-        )}
-      </div>
-    </MarsScene>
-  );
+  return <MarsScene className="screen-pad" bg="/assets/generated/greenhouse.webp"><div className="screen-content lab-content">
+    <span className="eyebrow">{w('EXPERIMENT 02 / LIVING THINGS','ಪ್ರಯೋಗ 02 / ಜೀವಿಗಳು')}</span><h1 className="screen-title">{w('Grow a little tomorrow.','ನಾಳೆಗಾಗಿ ಬೆಳೆಸಿ.')}</h1><p className="lab-intro">{w('Three growing cycles. Six water units. Study a plant’s needs, then test how water and light affect your harvest.','ಮೂರು ಬೆಳವಣಿಗೆ ಚಕ್ರಗಳು. ಆರು ನೀರಿನ ಘಟಕಗಳು. ಗಿಡದ ಅಗತ್ಯ ತಿಳಿದು ನೀರು ಮತ್ತು ಬೆಳಕು ಬೆಳೆ ಮೇಲೆ ಹೇಗೆ ಪರಿಣಾಮ ಬೀರುತ್ತದೆ ಎಂದು ಪರೀಕ್ಷಿಸಿ.')}</p>
+    {done ? <div className="experiment-result result-good"><h2>{w('Your harvest is in the food reserve.','ನಿಮ್ಮ ಬೆಳೆ ಆಹಾರದ ಸಂಗ್ರಹದಲ್ಲಿದೆ.')}</h2><p>{w('Plants need the right amount of water and enough light together. More water alone cannot fix too little light.','ಗಿಡಗಳಿಗೆ ಸರಿಯಾದ ಪ್ರಮಾಣದ ನೀರು ಮತ್ತು ಸಾಕಷ್ಟು ಬೆಳಕು ಒಟ್ಟಿಗೆ ಬೇಕು. ಹೆಚ್ಚು ನೀರು ಮಾತ್ರ ಕಡಿಮೆ ಬೆಳಕನ್ನು ಸರಿಪಡಿಸಲಾರದು.')}</p><button className="btn-main" onClick={()=>go('map')}>{w('Back to the outpost','ನೆಲೆಗೆ ಹಿಂದಿರುಗಿ')} ↗</button></div> : <>
+    <div className="crop-options">{crops.map(({id,name})=><button key={id} disabled={results.length>0} className={crop===id?'selected':''} aria-pressed={crop===id} onClick={()=>setCrop(id)}><span aria-hidden="true">{id==='tomatoes'?'◉':id==='potatoes'?'◈':'✳'}</span><strong>{name}</strong><small>{CROP_NEEDS[id].water} {w('water','ನೀರು')} · {CROP_NEEDS[id].light} {w('light','ಬೆಳಕು')}</small></button>)}</div>
+    {crop&&<><div className="grow-readout"><div><small>{w('WATER LEFT','ಉಳಿದ ನೀರು')}</small><strong>{tank}<small>/6</small></strong></div><div><small>{w('LIGHT FROM YOUR PLAN','ಯೋಜನೆಯ ಬೆಳಕು')}</small><strong>{alloc.green}</strong></div><div><small>{w('CYCLES COMPLETE','ಮುಗಿದ ಚಕ್ರಗಳು')}</small><strong>{results.length}<small>/3</small></strong></div></div>
+    {results.length<3&&<><label className="energy-control"><span><strong>{w('Water this cycle','ಈ ಚಕ್ರದ ನೀರು')}</strong><b>{Math.min(water,tank)}</b></span><input type="range" min="0" max={Math.min(3,tank)} value={Math.min(water,tank)} onChange={e=>setWater(Number(e.target.value))}/></label><button className="btn-main" disabled={running} onClick={grow}>{w('Run growing experiment','ಬೆಳವಣಿಗೆ ಪ್ರಯೋಗ ನಡೆಸಿ')} →</button>{water>tank&&<p>{w('Lower the water amount to match your remaining supply.','ಉಳಿದ ನೀರಿಗೆ ಸರಿಯಾಗಿ ಪ್ರಮಾಣ ಕಡಿಮೆ ಮಾಡಿ.')}</p>}</>}
+    {last&&<div className="experiment-result" role="status"><strong>+{last.food} {w('food harvested','ಆಹಾರ ಬೆಳೆದಿದೆ')}</strong><p>{!last.watered ? w('The water amount missed this crop’s needs. Too little dries roots; too much can waterlog them. Adjust your next experiment.','ನೀರಿನ ಪ್ರಮಾಣ ಸರಿಯಾಗಲಿಲ್ಲ. ಕಡಿಮೆ ನೀರು ಬೇರು ಒಣಗಿಸುತ್ತದೆ; ಹೆಚ್ಚು ನೀರು ಮುಳುಗಿಸುತ್ತದೆ. ಮುಂದಿನ ಪ್ರಯೋಗ ಬದಲಿಸಿ.') : !last.lit ? w('The water was right, but light was too low. Water cannot replace light. Next mission, give the greenhouse more energy or choose a less demanding crop.','ನೀರು ಸರಿಯಾಗಿತ್ತು, ಆದರೆ ಬೆಳಕು ಕಡಿಮೆ. ನೀರು ಬೆಳಕಿಗೆ ಪರ್ಯಾಯವಲ್ಲ. ಮುಂದಿನ ಯಾತ್ರೆಯಲ್ಲಿ ಹೆಚ್ಚು ಶಕ್ತಿ ಕೊಡಿ ಅಥವಾ ಕಡಿಮೆ ಬೆಳಕಿನ ಬೆಳೆ ಆರಿಸಿ.') : w('A healthy crop. Water and light worked together. Can you repeat this with the water left?','ಆರೋಗ್ಯಕರ ಬೆಳೆ. ನೀರು ಮತ್ತು ಬೆಳಕು ಒಟ್ಟಿಗೆ ಕೆಲಸ ಮಾಡಿದವು. ಉಳಿದ ನೀರಿನಿಂದ ಮತ್ತೆ ಮಾಡಬಲ್ಲಿರಾ?')}</p></div>}
+    {results.length===3&&<button className="btn-main" onClick={()=>{visit('greenhouse');go('map');}}>{w('Save harvest & return','ಬೆಳೆ ಉಳಿಸಿ ಹಿಂದಿರುಗಿ')} ↗</button>}</>}
+    </>}
+  </div></MarsScene>;
 }

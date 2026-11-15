@@ -1,8 +1,8 @@
-# Mission: Dhruva
+# Mission Dhruva
 
-A Junior Astronaut Mission Trainer for the [NASA Space Apps Challenge 2026](https://www.spaceappschallenge.org/2026/challenges/junior-astronaut-mission-trainer/).
+**Created by Anthahkarana.**
 
-An eight minute, mobile first, bilingual (English and Kannada) journey for kids ages 7 to 12. You are the commander of a Mars outpost in Jezero Crater. A warm Mission Control companion named Dhruva guides you by voice, a tiny rover-bot named Chinnu tags along, and every decision teaches a real constraint of deep space survival: no choice is free.
+A bilingual science adventure for children ages 7–12. Keep a fictional Mars outpost alive by predicting, experimenting and learning from consequences.
 
 ## Play
 
@@ -11,51 +11,35 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000 on a phone or laptop. No account, no download, no data storage.
+Open [the game](http://localhost:3000) or [the narrated mission film](http://localhost:3000/demo). No account is required. Mission progress stays in memory; the language preference is stored locally.
 
-Requires two API keys in `.env.local` (server side only, never shipped to the browser):
+## The learning loop
 
+1. **Predict and test:** share 12 energy units between life support, crops and shelter. A fixed budget makes every allocation a trade-off.
+2. **Experiment:** choose a crop, read its requirements and run three growing cycles with six water units. Light and water both affect the harvest.
+3. **Solve:** reconnect a water recycling loop and choose a conservation policy.
+4. **Prepare:** read the scenario's weather and solar-storm alert, then select supplies.
+5. **Apply:** face three untimed storm waves. Preparation and allocations change the consequences; each decision shows its result.
+6. **Reflect:** connect what happened to a garden on Earth, then collect a personalized certificate.
+
+Stations count as complete after their activity is finished. Completed activities cannot be used to farm resources. Stars reflect the final air, exposure, food and energy reserves.
+
+## Science and fiction
+
+The outpost, artwork and resource rules are fictional learning models. Weather values are illustrative, not live or traceable archived NASA readings. Radiation and dust storms are distinct hazards; the scenario combines them for systems-thinking exercises. Real research links are provided in the sources screen.
+
+## Voices and demo
+
+Optional in-game Dhruva narration uses Sarvam; existing Chinnu lines use ElevenLabs. Configure `SARVAM_API_KEY` and `ELEVENLABS_API_KEY` in `.env.local` for those voices. The game works without audio. Keys remain on the server.
+
+The included 90-second, 1080p film uses actual captured game screens with Sarvam narration, chapter titles, fades and English captions. It is a narrated capture montage, not a continuous gameplay recording. See [production notes](docs/demo/README.md), [narration](docs/demo/narration.json) and [artwork prompts](docs/demo/asset-prompts.md).
+
+## Verify
+
+```bash
+node scripts/test-mission.cjs
+npx tsc --noEmit
+npm run build
 ```
-SARVAM_API_KEY=...
-ELEVENLABS_API_KEY=...
-```
 
-## What happens in the game
-
-1. **Boarding.** The kid types their name. It is transliterated to Kannada, checked by the kid, and woven through the whole journey on screen and in Dhruva's voice.
-2. **Transit.** The kid sends a message to Earth and waits ten real seconds, feeling the communication delay between Mars and home.
-3. **Arrival and free exploration.** The outpost has four stations (Power, Greenhouse, Life Support, Sol Report). The kid visits them in any order and revisits whenever they like. The greenhouse plants, including a plant named Gerald, keep growing across visits.
-4. **The storm.** A real solar flare event from NASA DONKI hits. The kid must triage limited battery power: shield the crew, save the greenhouse, or keep the antenna alive. Every option has a genuine cost.
-5. **Recovery and ceremony.** The consequences play out gently, a real NASA science card unlocks, and the kid downloads a personalized mission certificate with their stars and badges.
-
-There are no fail states. Outcomes are graded, choices vary per run, and every run converges on the same ceremony so every kid experiences the full mission.
-
-## Real NASA data used
-
-| Dataset | How it is used |
-|---|---|
-| [NASA DONKI, Space Weather Database](https://kauai.ccmc.gsfc.nasa.gov/DONKI/) | The storm event mirrors the real May 2024 solar storm, the strongest in twenty years |
-| [NASA InSight, REMS Mars Weather](https://mars.nasa.gov/insight/weather/) | The Sol Report card shows real archived Mars temperatures and pressure |
-| [NASA OSDR, Open Science Data Repository](https://osdr.nasa.gov/) | The Science Card presents the real NASA Twins Study on astronaut health |
-| [NASA Perseverance Rover](https://science.nasa.gov/mission/mars-2020-perseverance/) | The outpost is set in Jezero Crater, where Perseverance operates today |
-
-Archived real data is labeled as archived inside the game. Nothing static is presented as live.
-
-## Bilingual by design
-
-Every line of narration, every UI string, every science explanation exists in English and Kannada. The player picks a language at boarding and can switch anytime; the entire interface and voice re-render instantly. Names entered in Latin script are transliterated to Kannada script for the Kannada voice and screens. Space terms are explained in context, for example: sol, the Martian day.
-
-## Voices
-
-- **Dhruva** (Mission Control): synthesized with Sarvam AI Bulbul TTS, a motherly Kannada and English voice.
-- **Chinnu** (rover-bot): synthesized with ElevenLabs, rare and playful micro-lines.
-
-All audio is cached on disk after first synthesis, and a browser Web Speech fallback keeps the game playable if a TTS call fails.
-
-## Tech
-
-Next.js (App Router), React, TypeScript, Tailwind CSS, Zustand. The game engine is pure TypeScript. TTS runs through a server API route so API keys never reach the client. Pixel art sprites are drawn in code as SVG grids, no image assets needed for gameplay. The certificate is rendered on a canvas in the browser and downloaded as a PNG.
-
-## Credits
-
-Built for the NASA Space Apps Challenge 2026, challenge: Build a Junior Astronaut Mission Trainer. Voice APIs by Sarvam AI and ElevenLabs. Fonts: Press Start 2P and Noto Sans Kannada.
+Built with Next.js, React, TypeScript, Zustand and native component CSS. Fonts: Space Grotesk and Noto Sans Kannada. The English playthrough and responsive layouts were checked in the browser; Kannada copy should receive native-language editorial review before classroom release.

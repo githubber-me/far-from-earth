@@ -100,7 +100,7 @@ export const useGame = create<GameState>((set) => ({
   water: null,
   alloc: { life: 4, green: 4, shield: 4 },
   stormChoice: null,
-  voiceOn: true,
+  voiceOn: false,
   caption: null,
 
   resources: { ...initialResources },
@@ -110,9 +110,9 @@ export const useGame = create<GameState>((set) => ({
 
   setLang: (lang) => set({ lang }),
   setName: (name, nameKn) => set({ name, nameKn }),
-  go: (phase) => set({ phase }),
+  go: (phase) => set({ phase, caption: null }),
   visit: (station) =>
-    set((s) => ({ visits: { ...s.visits, [station]: s.visits[station] + 1 } })),
+    set((s) => ({ visits: { ...s.visits, [station]: 1 } })),
   setCrop: (crop) => set({ crop }),
   setWater: (water) => set({ water }),
   setAlloc: (alloc) => set({ alloc }),
@@ -129,7 +129,8 @@ export const useGame = create<GameState>((set) => ({
       ][]) {
         if (!amount) continue;
         resources[key] = clampResource(key, resources[key] + amount);
-        added.push({ id: ++deltaSeq, key, amount });
+        const actual = resources[key] - s.resources[key];
+        if (actual) added.push({ id: ++deltaSeq, key, amount: actual });
       }
       return { resources, deltas: [...s.deltas, ...added] };
     }),

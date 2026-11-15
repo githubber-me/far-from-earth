@@ -1,5 +1,7 @@
 "use client";
 
+import { Brand } from "@/components/ui/Brand";
+import { words } from "@/lib/game/mission";
 import { useEffect } from "react";
 import { useGame } from "@/lib/game/store";
 import { narrator } from "@/lib/audio/speech";
@@ -42,6 +44,7 @@ function VoiceOffIcon() {
 
 export default function Game() {
   const phase = useGame((s) => s.phase);
+  const go = useGame((s) => s.go);
   const lang = useGame((s) => s.lang);
   const setLang = useGame((s) => s.setLang);
   const voiceOn = useGame((s) => s.voiceOn);
@@ -70,6 +73,8 @@ export default function Game() {
   useEffect(() => {
     narrator.setEnabled(voiceOn);
   }, [voiceOn]);
+
+  useEffect(() => { window.scrollTo(0, 0); }, [phase]);
 
   const t = STRINGS[lang];
   const sol = stats.stormPulses.length > 0 ? "03" : allStationsDone(visits) ? "02" : "01";
@@ -112,6 +117,7 @@ export default function Game() {
       {phase !== "boot" && (
         <div className="hud">
           <div className="hud-top">
+            <Brand />
             <div className="hud-tele">
               <span>
                 {t.hud.solDay} {sol}
@@ -120,6 +126,7 @@ export default function Game() {
               <span>Jezero station</span>
             </div>
             <div className="hud-actions">
+              {(["power", "greenhouse", "life", "sol"].includes(phase) && visits[phase as keyof typeof visits] > 0) && <button className="hud-btn" onClick={() => go("map")}>{words(lang,"Outpost","ನೆಲೆ")} ↗</button>}
               <button
                 type="button"
                 className="hud-btn hud-lang"
@@ -138,10 +145,10 @@ export default function Game() {
               </button>
             </div>
           </div>
-          <HudResources />
+          {!["boarding", "arrival", "sources"].includes(phase) && <HudResources />}
         </div>
       )}
-      {screen}
+      <div key={phase} className={`phase-view phase-${phase}`}>{screen}</div>
       <CaptionBar />
     </div>
   );

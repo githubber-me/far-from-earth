@@ -82,6 +82,7 @@ export default function LifeSupport() {
   const applyDelta = useGame((s) => s.applyDelta);
   const bumpStat = useGame((s) => s.bumpStat);
   const go = useGame((s) => s.go);
+  const visit = useGame((s) => s.visit);
   const t = STRINGS[lang];
 
   const [stage, setStage] = useState<Stage>(water ? "choice" : "pipes");
@@ -146,7 +147,7 @@ export default function LifeSupport() {
 
   function choose(id: WaterPolicy) {
     setWater(id);
-    applyDelta(id === "comfort" ? { o2: 4 } : id === "savers" ? { o2: -4 } : {});
+    visit("life");
     setCaption({ speaker: "chinnu", text: t.chinnu.water });
     setStage("done");
   }
@@ -155,6 +156,7 @@ export default function LifeSupport() {
     <MarsScene className="screen-pad" bg="/assets/bg-life.webp">
       <div className="screen-content">
         <h2 className="screen-title font-pixel">{t.map.life}</h2>
+        <p className="lab-intro">{lang === "en" ? "Close the loop: rotate the pipes to connect the blue inlet to the green outlet. Reusing water means carrying less from Earth." : "ಪೈಪ್ ತಿರುಗಿಸಿ ನೀಲಿ ಒಳಹರಿವನ್ನು ಹಸಿರು ಹೊರಹರಿವಿಗೆ ಜೋಡಿಸಿ. ನೀರಿನ ಮರುಬಳಕೆ ಭೂಮಿಯಿಂದ ಕಡಿಮೆ ನೀರು ತರುವಂತೆ ಮಾಡುತ್ತದೆ."}</p>
 
         {stage === "pipes" && (
           <div className="fade-in pipe-game">

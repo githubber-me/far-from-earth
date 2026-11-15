@@ -20,19 +20,19 @@ export interface SourceEntry {
 
 export const SOURCES: SourceEntry[] = [
   {
-    name: "NASA DONKI (Space Weather Database)",
-    url: "https://kauai.ccmc.gsfc.nasa.gov/DONKI/",
+    name: "NASA JPL: May 2024 solar storm",
+    url: "https://www.jpl.nasa.gov/news/nasa-watches-mars-light-up-during-epic-solar-storm/",
     use: {
-      en: "The solar flare event in the storm phase is based on the real May 2024 solar storm, the strongest in twenty years.",
+      en: "NASA observed a solar storm at Mars in May 2024. Our fictional scenario combines radiation and dust-related challenges; its resource effects are simplified game rules.",
       kn: "ಬಿರುಗಾಳಿ ಹಂತದ ಸೋಲಾರ್ ಫ್ಲೇರ್ ಘಟನೆ, 2024 ಮೇ ತಿಂಗಳ ನಿಜವಾದ ಸೌರ ಬಿರುಗಾಳಿಯನ್ನು ಆಧರಿಸಿದೆ. ಇಪ್ಪತ್ತು ವರ್ಷಗಳಲ್ಲಿನ ಅತಿ ದೊಡ್ಡದು.",
     },
   },
   {
-    name: "NASA InSight (REMS Mars Weather)",
+    name: "NASA InSight (Mars Weather)",
     url: "https://mars.nasa.gov/insight/weather/",
     use: {
-      en: "Sol Report temperatures and pressure are real archived readings from the InSight lander on Mars.",
-      kn: "ಸಾಲ್ ರಿಪೋರ್ಟ್‌ನ ತಾಪಮಾನ ಮತ್ತು ಒತ್ತಡ, ಮಂಗಳದ ಮೇಲಿನ ಇನ್‌ಸೈಟ್ ಲ್ಯಾಂಡರ್‌ನ ನಿಜವಾದ ಆರ್ಕೈವ್ ಮಾಪನಗಳು.",
+      en: "InSight measured Martian weather. The numbers in this game are illustrative teaching values, not a traceable daily record.",
+      kn: "ಇನ್‌ಸೈಟ್ ಮಂಗಳದ ಹವಾಮಾನ ಅಳೆಯಿತು. ಆಟದ ಅಂಕಿಗಳು ಕಲಿಕೆಯ ಮಾದರಿ, ದಿನಾಂಕಿತ ದಾಖಲೆ ಅಲ್ಲ.",
     },
   },
   {

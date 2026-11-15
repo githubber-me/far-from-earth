@@ -1,3 +1,5 @@
+> Historical build notes. See README.md and docs/demo/README.md for the current learning redesign and demo.
+
 # Mission: Dhruva Build Status
 
 Current state of the NASA Space Apps 2026 Junior Astronaut game.

@@ -1,84 +1,16 @@
-"use client";
+'use client';
+import { useState } from 'react';
+import { useGame } from '@/lib/game/store';
+import { words } from '@/lib/game/mission';
+import { MarsScene } from '@/components/ui/Scene';
 
-import { useMemo, useState } from "react";
-import { useGame } from "@/lib/game/store";
-import { useNarration, type NarrationLine } from "@/lib/audio/speech";
-import { displayName, fmt, STRINGS } from "@/lib/i18n/strings";
-import { CHINNU, PixelSprite } from "@/components/ui/Sprites";
-import { MarsScene } from "@/components/ui/Scene";
-import { ContinueButton } from "@/components/ui/ChoiceCards";
-
-export default function Recovery() {
-  const lang = useGame((s) => s.lang);
-  const name = useGame((s) => s.name);
-  const nameKn = useGame((s) => s.nameKn);
-  const stormChoice = useGame((s) => s.stormChoice);
-  const go = useGame((s) => s.go);
-  const t = STRINGS[lang];
-  const who = displayName(lang, name, nameKn);
-
-  const [stage, setStage] = useState<"outcome" | "card">("outcome");
-
-  const lines = useMemo<NarrationLine[]>(() => {
-    const outcomeKey =
-      stormChoice === "shields"
-        ? "recovery.shields"
-        : stormChoice === "greenhouse"
-          ? "recovery.greenhouse"
-          : "recovery.comms";
-    const outcomeText =
-      stormChoice === "shields"
-        ? t.recovery.outcomeShields
-        : stormChoice === "greenhouse"
-          ? t.recovery.outcomeGreenhouse
-          : t.recovery.outcomeComms;
-    if (stage === "outcome") {
-      return [
-        { id: outcomeKey, speaker: "dhruva", text: fmt(outcomeText, { name: who }) },
-        { id: "recovery.tradeoff", speaker: "dhruva", text: t.recovery.dhruvaTradeoff },
-      ];
-    }
-    const chinnuLine =
-      stormChoice === "shields" ? t.chinnu.recoverShields : t.chinnu.recoverOther;
-    const chinnuId =
-      stormChoice === "shields" ? "chinnu.recoverShields" : "chinnu.recoverOther";
-    return [
-      { id: chinnuId, speaker: "chinnu", text: chinnuLine },
-    ];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stage, stormChoice, lang]);
-
-  useNarration(lines, `recovery-${stage}-${stormChoice}-${lang}`);
-
-  return (
-    <MarsScene className="screen-pad after-storm" bg="/assets/bg-outpost.webp">
-      <div className="screen-content">
-        {stage === "outcome" && (
-          <ContinueButton label={t.recovery.btnContinue} onClick={() => setStage("card")} />
-        )}
-
-        {stage === "card" && (
-          <div className="fade-in">
-            <div className="science-card">
-              <PixelSprite grid={CHINNU} scale={4} className="sprite-bob" />
-              {stormChoice === "shields" && (
-                <img
-                  src="/assets/gerald.png"
-                  alt="Gerald the frozen tomato plant"
-                  className="gerald-art sprite-bob"
-                />
-              )}
-              <h3 className="science-title font-pixel">{t.recovery.cardTitle}</h3>
-              <p className="science-body">{t.recovery.cardBody}</p>
-              <p className="science-source">{t.recovery.cardSource}</p>
-            </div>
-            <ContinueButton
-              label={t.recovery.btnContinue}
-              onClick={() => go("ceremony")}
-            />
-          </div>
-        )}
-      </div>
-    </MarsScene>
-  );
+export default function Recovery(){
+ const {lang,resources,alloc,go}=useGame();
+ const [answer,setAnswer]=useState<number|null>(null);
+ const w=(en:string,kn:string)=>words(lang,en,kn);
+ return <MarsScene className="screen-pad" bg="/assets/generated/outpost.webp"><div className="screen-content lab-content"><span className="eyebrow">{w('MISSION DEBRIEF','ಯಾತ್ರೆಯ ಪರಿಶೀಲನೆ')}</span><h1 className="screen-title">{w('You kept a world going.','ನೀವು ಒಂದು ಜಗತ್ತನ್ನು ನಡೆಸಿದಿರಿ.')}</h1><p className="lab-intro">{w('Now, connect the dots. A good explorer can explain what happened, not just finish a mission.','ಈಗ ಸಂಬಂಧಗಳನ್ನು ತಿಳಿಯಿರಿ. ಒಳ್ಳೆಯ ಅನ್ವೇಷಕ ಯಾತ್ರೆ ಮುಗಿಸುವುದಷ್ಟೇ ಅಲ್ಲ, ಏನಾಯಿತು ಎಂದು ವಿವರಿಸಬಲ್ಲ.')}</p>
+ <div className="debrief-grid"><div><small>{w('AIR RESERVE','ಗಾಳಿ ಸಂಗ್ರಹ')}</small><strong>{resources.o2}</strong></div><div><small>{w('FOOD RESERVE','ಆಹಾರ ಸಂಗ್ರಹ')}</small><strong>{resources.food}</strong></div><div><small>{w('POWER LEFT','ಉಳಿದ ಶಕ್ತಿ')}</small><strong>{resources.power}/12</strong></div></div>
+ <div className="experiment-result"><strong>{w('Your decisions left a footprint.','ನಿಮ್ಮ ನಿರ್ಧಾರಗಳು ಪರಿಣಾಮ ಬೀರಿದವು.')}</strong><p>{w(`You gave ${alloc.green} energy units to plants and ${alloc.shield} to shelter systems. You ended with ${resources.dose} exposure points. Try a different balance next mission and compare.`,`ನೀವು ಗಿಡಗಳಿಗೆ ${alloc.green} ಮತ್ತು ಆಶ್ರಯಕ್ಕೆ ${alloc.shield} ಶಕ್ತಿ ಘಟಕ ಕೊಟ್ಟಿರಿ. ಕೊನೆಯಲ್ಲಿ ${resources.dose} ಪ್ರಭಾವ ಅಂಕ ಉಳಿದವು. ಮುಂದಿನ ಬಾರಿ ಬೇರೆ ಹಂಚಿಕೆ ಮಾಡಿ ಹೋಲಿಸಿ.`)}</p></div>
+ <div className="experiment-question"><span className="eyebrow">{w('BRING IT BACK TO EARTH','ಭೂಮಿಗೆ ಕಲಿಕೆ ತನ್ನಿ')}</span><h2>{w('Your school garden is wilting in the shade. What would you test first?','ನೆರಳಿನಲ್ಲಿ ಶಾಲೆಯ ಗಿಡಗಳು ಬಾಡುತ್ತಿವೆ. ಮೊದಲು ಏನನ್ನು ಪರೀಕ್ಷಿಸುತ್ತೀರಿ?')}</h2><div className="reflection-options">{[w('Keep adding more water','ಇನ್ನಷ್ಟು ನೀರು ಹಾಕುತ್ತಿರಿ'),w('Move one plant into light and compare','ಒಂದು ಗಿಡ ಬೆಳಕಿಗೆ ಸರಿಸಿ ಹೋಲಿಸಿ'),w('Change everything at once','ಎಲ್ಲವನ್ನೂ ಒಟ್ಟಿಗೆ ಬದಲಿಸಿ')].map((text,i)=><button key={i} aria-pressed={answer===i} onClick={()=>setAnswer(i)}><span>{String.fromCharCode(65+i)}</span>{text}</button>)}</div>{answer!==null&&<p className="feedback" role="status">{answer===1?w('Yes. Change one thing and compare. That is how an experiment helps you understand cause and effect. The same thinking works on Mars and in your garden.','ಹೌದು. ಒಂದನ್ನು ಬದಲಿಸಿ ಹೋಲಿಸಿ. ಪ್ರಯೋಗ ಕಾರಣ ಮತ್ತು ಪರಿಣಾಮ ತಿಳಿಸುತ್ತದೆ. ಮಂಗಳದಲ್ಲೂ ತೋಟದಲ್ಲೂ ಇದೇ ಯೋಚನೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ.'):w('Think about the greenhouse. Water and light do different jobs. Change just one condition so you can tell what helped. Try again.','ಹಸಿರುಮನೆ ನೆನಪಿಸಿಕೊಳ್ಳಿ. ನೀರು ಮತ್ತು ಬೆಳಕಿನ ಕೆಲಸ ಬೇರೆ. ಏನು ಸಹಾಯ ಮಾಡಿತು ತಿಳಿಯಲು ಒಂದನ್ನು ಮಾತ್ರ ಬದಲಿಸಿ. ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.')}</p>}</div>
+ <button className="btn-main" disabled={answer!==1} onClick={()=>go('ceremony')}>{w('Complete my mission','ನನ್ನ ಯಾತ್ರೆ ಪೂರ್ಣಗೊಳಿಸಿ')} ↗</button></div></MarsScene>;
 }

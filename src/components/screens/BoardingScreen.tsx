@@ -17,19 +17,17 @@ export default function BoardingScreen() {
 
   const [name, setNameField] = useState("");
   const [nameKn, setNameKnField] = useState("");
-  const [pickLang, setPickLang] = useState(false);
+  const [pickLang, setPickLang] = useState(true);
 
   useEffect(() => {
-    if (name && !looksKannada(name)) {
-      setNameKnField(transliterateToKannada(name));
-    }
+    if (name) setNameKnField(looksKannada(name) ? name : transliterateToKannada(name));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name]);
 
   const lines: NarrationLine[] = [{ id: "boarding.greet", speaker: "dhruva", text: t.boarding.dhruvaGreet }];
   useNarration(lines, "boarding-greet-" + lang);
 
-  const canBoard = name.trim().length > 0 && nameKn.trim().length > 0 && pickLang;
+  const canBoard = name.trim().length > 0 && pickLang;
 
   return (
     <SpaceScene className="screen-pad">
@@ -37,11 +35,12 @@ export default function BoardingScreen() {
         <PixelSprite grid={ASTRONAUT} scale={6} className="sprite-bob" />
         <h2 className="screen-title font-pixel">{t.boarding.nameLabel}</h2>
         <input
+          aria-label={t.boarding.nameLabel}
           className="name-input"
           value={name}
           onChange={(e) => {
             setNameField(e.target.value);
-            setPickLang(false);
+            setPickLang(true);
           }}
           placeholder={t.boarding.nameLabel}
           maxLength={20}
@@ -94,8 +93,8 @@ export default function BoardingScreen() {
           className="btn-main"
           disabled={!canBoard}
           onClick={() => {
-            setName(name.trim(), nameKn.trim());
-            go("transit");
+            setName(name.trim(), nameKn.trim() || name.trim());
+            go("arrival");
           }}
         >
           {t.boarding.btnBoard} <span aria-hidden="true">&#9654;</span>

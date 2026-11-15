@@ -316,7 +316,7 @@ export const STRINGS: Record<Lang, Strings> = {
     },
     life: {
       dhruva1:
-        "Breathing is easy on Earth. Not here! Your recycler turns yesterday's breath back into fresh air. And the space station recycles about ninety three percent of its water. Every drop counts. Even the drops you sweat.",
+        "Life support depends on connected systems. Repair the water loop so used water can be cleaned and reused. In this game, repairing it also restores the air reserve. Every drop counts.",
       dhruva2: "How careful will your crew be with water today?",
       comfort: "Comfort crew",
       comfortDesc: "Warm showers for all. Morale high, reserves low.",
@@ -328,14 +328,14 @@ export const STRINGS: Record<Lang, Strings> = {
     sol: {
       title: "Sol Report",
       dhruvaReport:
-        "Sol Report! Today's real Mars weather, from NASA's InSight lander. High minus twenty three, low minus ninety five degrees. Light winds. A quiet sol... for now.",
+        "Here is our mission weather model. High minus twenty three, low minus ninety five degrees. These are teaching values, not a live forecast. A solar storm alert means we should prepare shelter supplies.",
       dhruvaDustWarn:
         "Dust is rising in the forecast, and my sun watches are beeping. Visit every station before the storm, Commander.",
       high: "High",
       low: "Low",
       pressure: "Pressure",
       wind: "Wind",
-      attribution: "Real archived data from NASA InSight (REMS).",
+      attribution: "Illustrative Mars weather for this mission. Not live or dated archival readings.",
       btnContinue: "Tap to continue",
     },
     storm: {
@@ -428,9 +428,9 @@ export const STRINGS: Record<Lang, Strings> = {
     taskSol: {
       packTitle: "Pack for tonight",
       light: "Light gear",
-      lightDesc: "Fast and breezy. Best on a calm night.",
-      heavy: "Shield coat",
-      heavyDesc: "Slow and snug. Built for rough sun weather.",
+      lightDesc: "Travel essentials, without extra shelter supplies.",
+      heavy: "Shelter kit",
+      heavyDesc: "Supplies to stay inside the shelter during a solar storm.",
       heavyRight: "Smart read of the forecast. Tonight will not be calm.",
       lightGently: "Hmm, look at the dust readings again. A calm sol would be right, but tonight is not one.",
     },
@@ -557,7 +557,7 @@ export const STRINGS: Record<Lang, Strings> = {
     },
     life: {
       dhruva1:
-        "ಭೂಮಿಯಲ್ಲಿ ಉಸಿರಾಡೋದು ಸುಲಭ. ಇಲ್ಲ ಅಲ್ಲ! ನಿಮ್ಮ ರೀಸೈಕ್ಲರ್, ನಿನ್ನೆಯ ಉಸಿರನ್ನೇ ಮತ್ತೆ ತಾಜಾ ಗಾಳಿಯನ್ನಾಗಿ ಮಾಡುತ್ತದೆ. ಮತ್ತು ಸ್ಪೇಸ್ ಸ್ಟೇಷನ್ ತನ್ನ ಸುಮಾರು ತೊಂಬತ್ತಮೂರು ಪ್ರತಿಶತ ನೀರನ್ನು ರೀಸೈಕಲ್ ಮಾಡುತ್ತದೆ. ಪ್ರತಿ ಹನಿಯೂ ಬೆಲೆಬಾಳುತ್ತದೆ. ನೀವು ಬಿಟ್ಟ ಬೆವರೂ ಸಹ.",
+        "ಜೀವ ರಕ್ಷಣೆ ಪರಸ್ಪರ ಸಂಪರ್ಕಿತ ವ್ಯವಸ್ಥೆಗಳ ಮೇಲೆ ಅವಲಂಬಿತ. ಬಳಸಿದ ನೀರನ್ನು ಶುದ್ಧಗೊಳಿಸಿ ಮತ್ತೆ ಬಳಸಲು ಪೈಪ್ ಸರಿಪಡಿಸಿ. ಈ ಆಟದಲ್ಲಿ ಅದರಿಂದ ಗಾಳಿಯ ಸಂಗ್ರಹವೂ ಹೆಚ್ಚುತ್ತದೆ. ಪ್ರತಿ ಹನಿ ಮುಖ್ಯ.",
       dhruva2: "ಇಂದು ನಿಮ್ಮ ತಂಡ ನೀರನ್ನು ಎಷ್ಟು ಎಚ್ಚರಿಕೆಯಿಂದ ಬಳಸುತ್ತದೆ?",
       comfort: "ಆರಾಮದಾಯಕ ತಂಡ",
       comfortDesc: "ಎಲ್ಲರಿಗೂ ಬಿಸಿ ಶವರ್. ಉತ್ಸಾಹ ಹೆಚ್ಚು, ನೀರಿನ ಕಾಳಜಿ ಕಡಿಮೆ.",
@@ -569,14 +569,14 @@ export const STRINGS: Record<Lang, Strings> = {
     sol: {
       title: "ಸಾಲ್ ರಿಪೋರ್ಟ್",
       dhruvaReport:
-        "ಸಾಲ್ ರಿಪೋರ್ಟ್! ಇಂದಿನ ಮಂಗಳದ ನಿಜವಾದ ಹವಾಮಾನ, ನಾಸಾದ ಇನ್‌ಸೈಟ್ ಲ್ಯಾಂಡರ್‌ನಿಂದ. ಗರಿಷ್ಠ ಮೈನಸ್ ಇಪ್ಪತ್ಮೂರು, ಕನಿಷ್ಠ ಮೈನಸ್ ತೊಂಬತ್ತೈದು ಡಿಗ್ರಿ. ತಿಳಿ ಗಾಳಿ. ಶಾಂತ ಸಾಲ್... ಸದ್ಯಕ್ಕೆ.",
+        "ಇದು ನಮ್ಮ ಯಾತ್ರೆಯ ಮಾದರಿ ಹವಾಮಾನ. ಗರಿಷ್ಠ ಮೈನಸ್ ಇಪ್ಪತ್ಮೂರು, ಕನಿಷ್ಠ ಮೈನಸ್ ತೊಂಬತ್ತೈದು ಡಿಗ್ರಿ. ಇವು ಕಲಿಕೆಯ ಅಂಕಿಗಳು, ನೇರ ಮುನ್ಸೂಚನೆ ಅಲ್ಲ. ಸೌರ ಬಿರುಗಾಳಿ ಎಚ್ಚರಿಕೆಗೆ ಆಶ್ರಯದ ಸಾಮಗ್ರಿ ಸಿದ್ಧಪಡಿಸೋಣ.",
       dhruvaDustWarn:
         "ಮುನ್ಸೂಚನೆಯಲ್ಲಿ ಧೂಳು ಏರುತ್ತಿದೆ, ನನ್ನ ಸೂರ್ಯ ವೀಕ್ಷಕಗಳು ಬೀಪ್ ಹೊಡೆಯುತ್ತಿವೆ. ಬಿರುಗಾಳಿಗೂ ಮೊದಲು ಎಲ್ಲಾ ಸ್ಟೇಷನ್ ನೋಡಿ, ಕಮಾಂಡರ್.",
       high: "ಗರಿಷ್ಠ",
       low: "ಕನಿಷ್ಠ",
       pressure: "ಒತ್ತಡ",
       wind: "ಗಾಳಿ",
-      attribution: "ನಾಸಾ ಇನ್‌ಸೈಟ್ (REMS) ನಿಂದ ನಿಜವಾದ ಆರ್ಕೈವ್ ಮಾಹಿತಿ.",
+      attribution: "ಈ ಯಾತ್ರೆಗಾಗಿ ಮಾದರಿ ಹವಾಮಾನ. ನೇರ ಅಥವಾ ದಿನಾಂಕಿತ ಆರ್ಕೈವ್ ಮಾಹಿತಿ ಅಲ್ಲ.",
       btnContinue: "ಮುಂದುವರಿಸಲು ಟ್ಯಾಪ್ ಮಾಡಿ",
     },
     storm: {

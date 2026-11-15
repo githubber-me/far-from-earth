@@ -28,6 +28,7 @@ export default function SolReport() {
 
   function pack(kind: "light" | "heavy") {
     setPacked(kind);
+    useGame.getState().visit("sol");
     if (kind === "heavy") {
       setGearShielded(true);
       setCaption({ speaker: "dhruva", text: t.taskSol.heavyRight });
@@ -42,6 +43,7 @@ export default function SolReport() {
       <div className="screen-content">
         <h2 className="screen-title font-pixel">{t.sol.title}</h2>
 
+        <p className="decision-note">{lang === "en" ? "Solar storm alert: prepare to stay in the shelter. The weather readings below describe the surface; radiation is a separate hazard." : "ಸೌರ ಬಿರುಗಾಳಿ ಎಚ್ಚರಿಕೆ: ಆಶ್ರಯದಲ್ಲಿ ಇರಲು ಸಿದ್ಧರಾಗಿ. ಕೆಳಗಿನ ಅಂಕಿಗಳು ಮೇಲ್ಮೈ ಹವಾಮಾನ; ವಿಕಿರಣ ಬೇರೆ ಅಪಾಯ."}</p>
         <div className="weather-card">
           <div className="weather-grid">
             <div className="weather-cell">

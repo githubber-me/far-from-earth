@@ -1,212 +1,29 @@
-"use client";
-
-import { useEffect, useMemo, useRef, useState } from "react";
-import type { CSSProperties } from "react";
-import { POWER_MAX, useGame } from "@/lib/game/store";
-import { useNarration, type NarrationLine } from "@/lib/audio/speech";
-import { STRINGS } from "@/lib/i18n/strings";
-import type { PowerAlloc } from "@/lib/game/types";
-import {
-  CHINNU,
-  PixelSprite,
-  SHIELD_ICON,
-  SUN_ICON,
-  DOME_ICON,
-  HEART_ICON,
-} from "@/components/ui/Sprites";
-import { MarsScene } from "@/components/ui/Scene";
-
-type Stage = "clean" | "allocate" | "done";
-
-const PANEL_COUNT = 8;
+'use client';
+import { useState } from 'react';
+import { useGame } from '@/lib/game/store';
+import { words } from '@/lib/game/mission';
+import { MarsScene } from '@/components/ui/Scene';
+import type { PowerAlloc } from '@/lib/game/types';
 
 export default function PowerRoom() {
-  const lang = useGame((s) => s.lang);
-  const visits = useGame((s) => s.visits);
-  const alloc = useGame((s) => s.alloc);
-  const setAlloc = useGame((s) => s.setAlloc);
-  const setCaption = useGame((s) => s.setCaption);
-  const applyDelta = useGame((s) => s.applyDelta);
-  const bumpStat = useGame((s) => s.bumpStat);
-  const go = useGame((s) => s.go);
-  const t = STRINGS[lang];
-  const firstVisit = visits.power <= 1;
-
-  const [stage, setStage] = useState<Stage>(firstVisit ? "clean" : "allocate");
-  const [dust, setDust] = useState<number[] | null>(null);
-  const [locked, setLocked] = useState(false);
-  const barkTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => {
-    if (stage === "clean" && dust === null) {
-      setDust(
-        Array.from({ length: PANEL_COUNT }, (_, i) =>
-          Math.min(95, 35 + ((i * 37) % 61)),
-        ),
-      );
-    }
-  }, [stage, dust]);
-
-  const lines = useMemo<NarrationLine[]>(() => {
-    if (!firstVisit) return [];
-    return [
-      { id: "power.dhruva1", speaker: "dhruva", text: t.power.dhruva1 },
-      { id: "power.dhruva2", speaker: "dhruva", text: t.power.dhruva2 },
-    ];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [firstVisit, lang]);
-
-  useNarration(lines, `power-${firstVisit ? "first" : "again"}-${lang}`);
-
-  const cleaned = dust ? dust.filter((d) => d === 0).length : 0;
-  const avgClean = dust ? (cleaned / PANEL_COUNT) * 100 : 0;
-  const pool = Math.min(POWER_MAX, 6 + Math.round((avgClean / 100) * 6));
-
-  function brushPanel(i: number) {
-    if (!dust || dust[i] === 0) return;
-    const next = [...dust];
-    next[i] = Math.max(0, next[i] - 40);
-    setDust(next);
-    if (next[i] === 0) bumpStat("panelsCleaned");
-    if (next.every((d) => d === 0)) {
-      setCaption({ speaker: "dhruva", text: t.taskPower.doneAll });
-      setTimeout(() => setStage("allocate"), 900);
-    }
-  }
-
-  useEffect(() => {
-    if (stage === "allocate" && firstVisit) {
-      const current = useGame.getState().resources.power;
-      applyDelta({ power: pool - current });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }
-  }, [stage]);
-
-  const systems: { key: keyof PowerAlloc; label: string; icon: string[] }[] = [
-    { key: "life", label: t.power.life, icon: HEART_ICON },
-    { key: "green", label: t.power.green, icon: DOME_ICON },
-    { key: "shield", label: t.power.shield, icon: SHIELD_ICON },
-  ];
-
+  const { lang, alloc, setAlloc, visit, visits, applyDelta, go } = useGame();
+  const [tested, setTested] = useState(false);
+  const [prediction, setPrediction] = useState<string | null>(null);
+  const w = (en: string, kn: string) => words(lang, en, kn);
   const used = alloc.life + alloc.green + alloc.shield;
-  const free = pool - used;
-
-  function adjust(key: keyof PowerAlloc, delta: number, silent = false) {
-    if (locked) return;
-    const value = alloc[key] + delta;
-    if (value < 0 || value > POWER_MAX) return;
-    if (delta > 0 && free < 1) return;
-    const next: PowerAlloc = { ...alloc, [key]: value };
-    setAlloc(next);
-    if (silent) return;
-    if (barkTimer.current) clearTimeout(barkTimer.current);
-    barkTimer.current = setTimeout(() => {
-      const barkText =
-        next.green <= 2
-          ? t.power.barkCold
-          : next.shield >= 6
-            ? t.power.barkShield
-            : next.life <= 2
-              ? t.power.barkAir
-              : t.power.barkBalanced;
-      setCaption({ speaker: "dhruva", text: barkText });
-    }, 400);
-  }
-
-  function lock() {
-    setLocked(true);
-    setCaption({
-      speaker: "chinnu",
-      text: free === 0 && alloc.shield >= 4 ? t.chinnu.powerGood : t.chinnu.powerBad,
-    });
-    setStage("done");
-  }
-
-  return (
-    <MarsScene className="screen-pad" bg="/assets/bg-power.webp">
-      <div className="screen-content">
-        <h2 className="screen-title font-pixel">{t.map.power}</h2>
-
-        {stage === "clean" && dust && (
-          <div className="fade-in panel-game">
-            <p className="task-instruct">{t.taskPower.instruct}</p>
-            <div className="panel-grid">
-              {dust.map((d, i) => (
-                <button
-                  key={i}
-                  type="button"
-                  className={`panel-cell ${d === 0 ? "panel-clean" : ""}`}
-                  onClick={() => brushPanel(i)}
-                  aria-label={`panel ${i + 1} ${d === 0 ? t.taskPower.clean : t.taskPower.dusty}`}
-                >
-                  <span className="panel-dust" style={{ "--dust": String(d / 100) } as CSSProperties} />
-                </button>
-              ))}
-            </div>
-            <p className="panel-progress font-pixel">
-              {cleaned}/{PANEL_COUNT} · {pool}/{POWER_MAX} {t.taskPower.pool}
-            </p>
-          </div>
-        )}
-
-        {stage === "allocate" && (
-          <div className="fade-in alloc-wrap">
-            <div className="alloc-rows">
-              {systems.map(({ key, label, icon }) => (
-                <div key={key} className="alloc-row">
-                  <PixelSprite grid={icon} scale={3} />
-                  <div className="alloc-mid">
-                    <span className="alloc-label">{label}</span>
-                    <div className="alloc-bar">
-                      <div
-                        className="alloc-fill"
-                        style={{ "--fill": String(alloc[key] / POWER_MAX) } as CSSProperties}
-                      />
-                    </div>
-                  </div>
-                  <div className="alloc-btns">
-                    <button
-                      type="button"
-                      className="alloc-btn"
-                      onClick={() => adjust(key, -1)}
-                      disabled={locked || alloc[key] <= 0}
-                    >
-                      &minus;
-                    </button>
-                    <span className="alloc-value font-pixel">{alloc[key]}</span>
-                    <button
-                      type="button"
-                      className="alloc-btn"
-                      onClick={() => adjust(key, 1)}
-                      disabled={locked || free < 1}
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <p className="alloc-free font-pixel">
-              {free} / {pool} {t.power.units}
-            </p>
-            <button type="button" className="btn-main" onClick={lock} disabled={free > 0}>
-              {t.power.btnLock}
-            </button>
-          </div>
-        )}
-
-        {stage === "done" && (
-          <div className="fade-in">
-            <div className="chinnu-pop">
-              <PixelSprite grid={CHINNU} scale={4} className="sprite-bob" />
-            </div>
-            <p className="locked-note font-pixel">{t.power.locked}</p>
-            <button type="button" className="btn-main" onClick={() => go("map")}>
-              {t.map.title} <span aria-hidden="true">&#9654;</span>
-            </button>
-          </div>
-        )}
-      </div>
-    </MarsScene>
-  );
+  const viable = used === 12 && Math.min(alloc.life, alloc.green, alloc.shield) >= 2;
+  const systems: {key: keyof PowerAlloc; name: string; detail: string}[] = [
+    {key:'life', name:w('Life support','ಜೀವ ರಕ್ಷಣೆ'), detail:w('More energy keeps the air system stable.','ಹೆಚ್ಚು ಶಕ್ತಿ ಗಾಳಿಯ ವ್ಯವಸ್ಥೆಯನ್ನು ಸ್ಥಿರಗೊಳಿಸುತ್ತದೆ.')},
+    {key:'green', name:w('Greenhouse','ಹಸಿರುಮನೆ'), detail:w('Plants need light. Your crop will use this allocation.','ಗಿಡಗಳಿಗೆ ಬೆಳಕು ಬೇಕು. ನಿಮ್ಮ ಬೆಳೆ ಈ ಶಕ್ತಿಯನ್ನು ಬಳಸುತ್ತದೆ.')},
+    {key:'shield', name:w('Shelter systems','ಆಶ್ರಯ ವ್ಯವಸ್ಥೆ'), detail:w('More energy supports protection during the storm.','ಹೆಚ್ಚು ಶಕ್ತಿ ಬಿರುಗಾಳಿಯ ರಕ್ಷಣೆಗೆ ನೆರವಾಗುತ್ತದೆ.')},
+  ];
+  return <MarsScene className="screen-pad" bg="/assets/bg-power.webp"><div className="screen-content lab-content">
+    <span className="eyebrow">{w('EXPERIMENT 01 / ENERGY','ಪ್ರಯೋಗ 01 / ಶಕ್ತಿ')}</span><h1 className="screen-title">{w('Enough for everyone?','ಎಲ್ಲರಿಗೂ ಸಾಕೇ?')}</h1>
+    <p className="lab-intro">{w('You have 12 units of solar energy. Share them between three systems. You cannot create more energy by moving a slider.','ನಿಮ್ಮ ಬಳಿ 12 ಶಕ್ತಿ ಘಟಕಗಳಿವೆ. ಮೂರು ವ್ಯವಸ್ಥೆಗಳಿಗೆ ಹಂಚಿ. ಸ್ಲೈಡರ್ ಚಲಿಸಿದರೆ ಹೊಸ ಶಕ್ತಿ ಸೃಷ್ಟಿಯಾಗುವುದಿಲ್ಲ.')}</p>
+    <div className="experiment-question"><strong>{w('First, make a prediction','ಮೊದಲು ಊಹಿಸಿ')}</strong><p>{w('If you give the greenhouse more power, what must happen elsewhere?','ಹಸಿರುಮನೆಗೆ ಹೆಚ್ಚು ಶಕ್ತಿ ಕೊಟ್ಟರೆ ಬೇರೆಡೆ ಏನಾಗಬೇಕು?')}</p><div className="prediction-options">{[w('Another system gets less','ಮತ್ತೊಂದು ವ್ಯವಸ್ಥೆಗೆ ಕಡಿಮೆ ಸಿಗುತ್ತದೆ'),w('Nothing changes','ಏನೂ ಬದಲಾಗುವುದಿಲ್ಲ')].map((label,i)=><button key={i} aria-pressed={prediction === String(i)} onClick={()=>setPrediction(String(i))}>{label}</button>)}</div>{prediction && <p className="feedback" role="status">{prediction === '0' ? w('Exactly. A fixed budget means every gain has a trade-off.','ಸರಿ. ಸೀಮಿತ ಶಕ್ತಿಯಲ್ಲಿ ಪ್ರತಿಯೊಂದು ಹೆಚ್ಚಳಕ್ಕೂ ಹೊಂದಾಣಿಕೆ ಬೇಕು.') : w('Try the sliders. The total is fixed: more here means less somewhere else.','ಸ್ಲೈಡರ್ ಬಳಸಿ ನೋಡಿ. ಒಟ್ಟು ಶಕ್ತಿ ಸ್ಥಿರ: ಇಲ್ಲಿ ಹೆಚ್ಚು ಕೊಟ್ಟರೆ ಬೇರೆಡೆ ಕಡಿಮೆ.')}</p>}</div>
+    <div className="energy-budget"><span>{w('ENERGY BUDGET','ಶಕ್ತಿ ಮಿತಿ')}</span><strong>{12-used}<small> / 12 {w('unassigned','ಉಳಿದಿದೆ')}</small></strong></div>
+    <div className="energy-controls">{systems.map(({key,name,detail})=><label key={key} className="energy-control"><span><strong>{name}</strong><b>{alloc[key]}</b></span><input aria-label={name} type="range" min="0" max="8" value={alloc[key]} onChange={e=>{const value=Number(e.target.value); if(used-alloc[key]+value<=12){setAlloc({...alloc,[key]:value});setTested(false);}}}/><small>{detail}</small></label>)}</div>
+    <button className="btn-main" disabled={prediction === null} onClick={()=>setTested(true)}>{w('Test my power plan','ನನ್ನ ಶಕ್ತಿ ಯೋಜನೆ ಪರೀಕ್ಷಿಸಿ')} →</button>
+    {tested && <div className={`experiment-result ${viable ? 'result-good' : ''}`} role="status"><strong>{viable ? w('Your outpost can run.','ನಿಮ್ಮ ನೆಲೆ ಕೆಲಸ ಮಾಡಬಲ್ಲದು.') : w('Your plan needs another look.','ಯೋಜನೆಯನ್ನು ಮತ್ತೊಮ್ಮೆ ನೋಡಿ.')}</strong><p>{viable ? w('All systems have a basic supply. More shelter power reduces storm exposure; more greenhouse power helps your crops. This plan will carry into the mission.','ಎಲ್ಲಾ ವ್ಯವಸ್ಥೆಗಳಿಗೆ ಮೂಲ ಶಕ್ತಿ ಇದೆ. ಆಶ್ರಯಕ್ಕೆ ಹೆಚ್ಚು ಶಕ್ತಿ ಬಿರುಗಾಳಿ ಪ್ರಭಾವ ಕಡಿಮೆ ಮಾಡುತ್ತದೆ; ಹಸಿರುಮನೆಗೆ ಹೆಚ್ಚು ಶಕ್ತಿ ಬೆಳೆಗಳಿಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ.') : w('Use all 12 units and give each system at least 2. Lower one slider to free up energy, then try again.','ಎಲ್ಲಾ 12 ಘಟಕ ಬಳಸಿ, ಪ್ರತಿ ವ್ಯವಸ್ಥೆಗೆ ಕನಿಷ್ಠ 2 ಕೊಡಿ. ಒಂದು ಸ್ಲೈಡರ್ ಕಡಿಮೆ ಮಾಡಿ ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.')}</p>{viable && <button className="btn-main" onClick={()=>{if(!visits.power)applyDelta({power:3});visit('power');go('map');}}>{w('Save plan & return','ಯೋಜನೆ ಉಳಿಸಿ ಹಿಂದಿರುಗಿ')} ↗</button>}</div>}
+  </div></MarsScene>;
 }

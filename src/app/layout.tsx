@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
-import { Noto_Sans_Kannada, Press_Start_2P } from "next/font/google";
+import { Noto_Sans_Kannada, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import "./mission.css";
 
-const pixelFont = Press_Start_2P({
-  weight: "400",
+const pixelFont = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-pixel",
 });
@@ -18,11 +18,11 @@ const kannadaFont = Noto_Sans_Kannada({
 export const metadata: Metadata = {
   title: "Mission: Dhruva",
   description:
-    "A Junior Astronaut Mission Trainer. A bilingual Mars outpost journey for ages 7 to 12, built for the NASA Space Apps Challenge 2026.",
+    "Learn by keeping a little world alive. A bilingual Mars science adventure for ages 7 to 12. Created by Anthahkarana.",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#140d24",
+  themeColor: "#f5f3eb",
   width: "device-width",
   initialScale: 1,
 };
