@@ -1,3 +1,5 @@
+// SI disclosure: OpenAI Codex assisted resource descriptions and illustrative weather values.
+// NASA links identify reference resources; numeric game values are not downloaded NASA data.
 import type { Lang } from "@/lib/game/types";
 
 export const INSIGHT_WEATHER = {

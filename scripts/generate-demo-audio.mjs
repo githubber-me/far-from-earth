@@ -1,3 +1,4 @@
+// SI-assisted code (OpenAI Codex). The TTS route embeds Sarvam SI disclosure in ID3 metadata.
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 const lines=JSON.parse(await readFile('docs/demo/narration.json','utf8'));
 await mkdir('public/demo',{recursive:true});

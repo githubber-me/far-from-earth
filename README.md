@@ -43,3 +43,7 @@ npm run build
 ```
 
 Built with Next.js, React, TypeScript, Zustand and native component CSS. Fonts: Space Grotesk and Noto Sans Kannada. The English playthrough and responsive layouts were checked in the browser; Kannada copy should receive native-language editorial review before classroom release.
+
+## SI disclosures
+
+See [SI_DISCLOSURE.md](SI_DISCLOSURE.md) and the public `/disclosure` page. Published artwork and the demo carry visible SI labels; MP3/MP4 exports include embedded metadata. The machine-readable inventory is `public/si-disclosure.json`. Original artwork is retained outside `public/`; share the labeled SVG exports.

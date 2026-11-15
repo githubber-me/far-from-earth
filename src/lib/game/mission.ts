@@ -1,3 +1,5 @@
+// SI disclosure: OpenAI Codex assisted this code and the fictional teaching model.
+// Values below are illustrative game rules, not NASA observations or engineering predictions.
 import type { Crop, Lang, PowerAlloc, StormChoice, WaterPolicy } from './types';
 
 export const words = (lang: Lang, en: string, kn: string) => lang === 'kn' ? kn : en;

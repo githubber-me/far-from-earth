@@ -17,6 +17,8 @@ const kannadaFont = Noto_Sans_Kannada({
 
 export const metadata: Metadata = {
   title: "Mission: Dhruva",
+  authors: [{ name: "Anthahkarana" }],
+  other: { "si-disclosure": "SI-assisted code, copy, translation drafts and game models: OpenAI Codex. SI-generated artwork: OpenAI. Synthetic narration: Sarvam AI and ElevenLabs. Details: /disclosure" },
   description:
     "Learn by keeping a little world alive. A bilingual Mars science adventure for ages 7 to 12. Created by Anthahkarana.",
 };

@@ -146,6 +146,7 @@ export default function Game() {
             </div>
           </div>
           {!["boarding", "arrival", "sources"].includes(phase) && <HudResources />}
+          <a className="hud-si-disclosure" href="/disclosure">{words(lang, "SI-generated art & voices · Disclosure", "SI-ಸೃಷ್ಟಿತ ಚಿತ್ರ ಮತ್ತು ಧ್ವನಿ · ವಿವರಗಳು")}</a>
         </div>
       )}
       <div key={phase} className={`phase-view phase-${phase}`}>{screen}</div>

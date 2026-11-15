@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "disclose:art": "node scripts/disclose-artwork.mjs",
+    "disclose:audio": "node scripts/disclose-audio.cjs"
   },
   "dependencies": {
     "next": "16.4.6",
@@ -20,5 +22,15 @@
     "@types/react-dom": "^19",
     "tailwindcss": "4.3.3",
     "typescript": "^5"
+  },
+  "siDisclosure": {
+    "creator": "Anthahkarana",
+    "code": "Substantially assisted by OpenAI Codex",
+    "copyAndTranslation": "SI-assisted; Kannada translation drafts require native-language review",
+    "data": "Illustrative SI-assisted teaching models; not NASA observational data",
+    "artwork": "SI-generated with OpenAI image generation",
+    "audio": "SI-generated with Sarvam AI and ElevenLabs",
+    "details": "SI_DISCLOSURE.md",
+    "manifest": "public/si-disclosure.json"
   }
 }

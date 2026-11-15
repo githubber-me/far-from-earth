@@ -1,6 +1,6 @@
 # Generated artwork
 
-Generated with the built-in image generation tool. Final optimized assets are `public/assets/generated/outpost.webp` and `greenhouse.webp`; original PNGs are retained alongside them. The scenes are fictional illustrations, not scientific diagrams.
+Generated with the built-in image generation tool. Final optimized assets are `public/assets/generated/outpost.svg` and `greenhouse.svg`, which embed the original images with SI disclosure labels. Original PNG/WebP masters are retained in `assets/source/generated/` outside the public website. The scenes are fictional illustrations, not scientific diagrams.
 
 ## Outpost
 

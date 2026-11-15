@@ -12,7 +12,7 @@ The artwork and resource model are fictional teaching material. Weather numbers 
 
 ## Demo
 
-`public/demo/mission-dhruva.mp4` is a 1920×1080 narrated walkthrough composed from six actual browser captures, with Sarvam Bulbul narration, chapter titles, fades and English captions. It is a screen-capture montage, not a continuous real-time playthrough. The game itself was manually played through to the certificate screen.
+`public/demo/mission-dhruva.mp4` is a 1920×1080 narrated walkthrough composed from six actual browser captures, with Sarvam Bulbul narration, chapter titles, fades, English captions and a persistent SI disclosure. It is a screen-capture montage, not a continuous real-time playthrough. The game itself was manually played through to the certificate screen.
 
 - Script: `docs/demo/narration.json`
 - Sarvam audio generation: `node scripts/generate-demo-audio.mjs` (requires the running app and its existing server-side `SARVAM_API_KEY`)
@@ -28,3 +28,7 @@ The artwork and resource model are fictional teaching material. Weather numbers 
 - Browser: onboarding, all four stations, three storm waves, incorrect/correct reflection answers, final score; desktop and mobile landing layouts.
 
 The Kannada UI remains available. A native-language editorial review is still recommended before a classroom release.
+
+## SI labeling
+
+The MP4 has a visible SI-GENERATED MEDIA label throughout, including fades, and provider metadata. Narration MP3s include ID3 SI/provider tags. Screenshots used for assembly are stored in `docs/demo/captures/` rather than published as unlabeled standalone images. New artwork source masters live in `assets/source/generated/`; published art is labeled SVG. See `SI_DISCLOSURE.md`.

@@ -11,10 +11,11 @@ export default function Sources() {
   const t = STRINGS[lang];
 
   return (
-    <SpaceScene className="screen-pad" bg="/assets/bg-space.webp">
+    <SpaceScene className="screen-pad" bg="/assets/bg-space.svg">
       <div className="screen-content sources-content">
         <h2 className="screen-title font-pixel">{t.sources.title}</h2>
         <p className="eyebrow">Created by Anthahkarana</p>
+        <p className="si-notice">{lang === "en" ? "Artwork and narration are SI-generated. Code, copy, translation drafts and simplified game models were developed with SI assistance." : "ಚಿತ್ರಗಳು ಮತ್ತು ಧ್ವನಿಗಳು SI ಮೂಲಕ ಸೃಷ್ಟಿಯಾಗಿವೆ. ಕೋಡ್, ಪಠ್ಯ, ಅನುವಾದ ಕರಡುಗಳು ಮತ್ತು ಆಟದ ಮಾದರಿಗಳಿಗೆ SI ನೆರವು ಬಳಸಲಾಗಿದೆ."} <a href="/disclosure">{lang === "en" ? "Full SI disclosure" : "SI ಬಳಕೆಯ ವಿವರಗಳು"} ↗</a></p>
         <p className="sources-intro">{t.sources.intro}</p>
 
         <ul className="sources-list">

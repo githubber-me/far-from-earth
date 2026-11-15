@@ -58,18 +58,18 @@ export default function Ceremony() {
   }
 
   return (
-    <SpaceScene className="screen-pad" bg="/assets/bg-space.webp">
+    <SpaceScene className="screen-pad" bg="/assets/bg-space.svg">
       <div className="screen-content">
         <h1 className="screen-title">{lang === "en" ? "Curiosity looks good on you." : "ಕುತೂಹಲ ನಿಮಗೆ ಚೆನ್ನಾಗಿ ಹೊಂದುತ್ತದೆ."}</h1>
         <p>{lang === "en" ? "You experimented, solved problems and learned why your choices matter." : "ನೀವು ಪ್ರಯೋಗಿಸಿ, ಸಮಸ್ಯೆ ಪರಿಹರಿಸಿ, ನಿರ್ಧಾರಗಳ ಮಹತ್ವ ಕಲಿತಿರಿ."}</p>
         <div className="astronaut-row">
           <img
-            src="/assets/astronaut-celebrate.webp"
+            src="/assets/astronaut-celebrate.svg"
             alt="The kid astronaut celebrating"
             className="astro-art sprite-bob"
           />
           <img
-            src="/assets/chinnu.png"
+            src="/assets/chinnu.svg"
             alt="Chinnu the rover-bot"
             className="chinnu-art sprite-bob"
           />

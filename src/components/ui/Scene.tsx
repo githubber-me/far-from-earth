@@ -23,6 +23,7 @@ export function SpaceScene({
         <div className="stars-layer" aria-hidden="true" />
       )}
       {bg && <div className="scene-scrim" aria-hidden="true" />}
+      {bg && <span className="scene-art-disclosure">SI-GENERATED ARTWORK</span>}
       {children}
     </div>
   );
@@ -68,6 +69,7 @@ export function MarsScene({
           <div className="dust dust-soft dust-2" aria-hidden="true" />
         </>
       )}
+      {bg && <span className="scene-art-disclosure">SI-GENERATED ARTWORK</span>}
       {children}
     </div>
   );

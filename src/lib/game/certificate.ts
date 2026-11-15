@@ -49,7 +49,7 @@ function drawMars(ctx: CanvasRenderingContext2D) {
 }
 
 async function drawAstronaut(ctx: CanvasRenderingContext2D) {
-  const img = await loadImage("/assets/astronaut-celebrate.webp");
+  const img = await loadImage("/assets/astronaut-celebrate.svg");
   if (!img) {
     drawPixelAstronaut(ctx);
     return;
@@ -111,7 +111,7 @@ function loadImage(src: string): Promise<HTMLImageElement | null> {
 }
 
 async function drawChinnu(ctx: CanvasRenderingContext2D) {
-  const chinnu = await loadImage("/assets/chinnu.png");
+  const chinnu = await loadImage("/assets/chinnu.svg");
   if (!chinnu) return;
   const h = 120;
   const w = h * (chinnu.width / chinnu.height);
@@ -167,6 +167,10 @@ export async function downloadCertificate(info: CertificateInfo) {
   ctx.fillStyle = "#6e6288";
   ctx.font = '400 18px "Noto Sans Kannada", sans-serif';
   ctx.fillText(t.boot.credit, W / 2, 620);
+
+  ctx.fillStyle = "#f9e7c8";
+  ctx.font = "600 14px sans-serif";
+  ctx.fillText("SI-GENERATED ARTWORK · SI-ASSISTED CERTIFICATE · CREATED BY ANTHAHKARANA", W / 2, 653);
 
   const link = document.createElement("a");
   link.download = `mission-dhruva-${info.name.replace(/\s+/g, "-").toLowerCase()}.png`;

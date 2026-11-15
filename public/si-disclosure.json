@@ -1,0 +1,52 @@
+{
+  "project": "Mission Dhruva",
+  "creator": "Anthahkarana",
+  "disclosureVersion": 1,
+  "code": {
+    "siAssisted": true,
+    "tool": "OpenAI Codex",
+    "scope": "Implementation, interface design, debugging, tests, media assembly"
+  },
+  "text": {
+    "siAssisted": true,
+    "tool": "OpenAI Codex",
+    "scope": "Educational copy, narration scripts and English/Kannada translation drafts"
+  },
+  "data": {
+    "siAssisted": true,
+    "tool": "OpenAI Codex",
+    "kind": "Fictional teaching model",
+    "scope": [
+      "weather values",
+      "crop requirements",
+      "resource effects",
+      "scoring"
+    ],
+    "isNasaObservationData": false
+  },
+  "artwork": {
+    "siGenerated": true,
+    "tool": "OpenAI image generation",
+    "manifest": "/assets/si-manifest.json",
+    "visibleWatermark": "SI-GENERATED ARTWORK",
+    "originals": "assets/source (not publicly served)"
+  },
+  "audio": {
+    "siGenerated": true,
+    "providers": {
+      "dhruva": "Sarvam AI",
+      "demo": "Sarvam AI",
+      "chinnu": "ElevenLabs"
+    },
+    "embeddedMetadata": "ID3v2.4 SI disclosure and SI provider; MP4 audio track handler name"
+  },
+  "video": {
+    "file": "/demo/mission-dhruva.mp4",
+    "containsSiGeneratedMedia": true,
+    "videoModelUsed": false,
+    "composition": "Actual app screenshots, OpenAI artwork and Sarvam synthetic narration, assembled with FFmpeg",
+    "visibleWatermark": "SI-GENERATED MEDIA | Artwork: OpenAI | Voice: Sarvam AI"
+  },
+  "references": "NASA resources provide background. Synthetic game values are not NASA measurements.",
+  "details": "/disclosure"
+}

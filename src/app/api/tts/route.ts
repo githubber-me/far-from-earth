@@ -1,3 +1,4 @@
+import { withAudioDisclosure } from "@/lib/audio/disclosure";
 import { createHash } from "crypto";
 import { mkdir, readFile, writeFile } from "fs/promises";
 import os from "os";
@@ -22,7 +23,7 @@ interface TtsBody {
 }
 
 function cacheKey(body: TtsBody): string {
-  const raw = `${body.speaker}|${body.lang}|${body.text}`;
+  const raw = `si-v1|${body.speaker}|${body.lang}|${body.text}`;
   const hash = createHash("sha1").update(raw).digest("hex").slice(0, 16);
   const id = (body.id ?? "line").replace(/[^a-zA-Z0-9.-]/g, "_").slice(0, 48);
   return `${id}-${hash}.mp3`;
@@ -96,14 +97,17 @@ export async function POST(req: NextRequest) {
   if (!text) return new Response("text required", { status: 400 });
 
   const file = path.join(CACHE_DIR, cacheKey({ ...body, speaker, lang, text }));
+  const provider = speaker === "chinnu" ? "ElevenLabs" : "Sarvam AI";
   const headers = {
+    "X-SI-Generated": "true",
+    "X-SI-Provider": provider,
     "Content-Type": "audio/mpeg",
     "Cache-Control": "public, max-age=31536000, immutable",
   };
 
   try {
     const cached = await readFile(file);
-    return new Response(new Uint8Array(cached), { headers });
+    return new Response(new Uint8Array(withAudioDisclosure(cached, provider)), { headers });
   } catch {
     // cache miss, synthesize below
   }
@@ -113,9 +117,10 @@ export async function POST(req: NextRequest) {
       speaker === "dhruva"
         ? await synthSarvam(text, lang)
         : await synthElevenLabs(text);
+    const disclosedAudio = withAudioDisclosure(audio, provider);
     await mkdir(CACHE_DIR, { recursive: true });
-    await writeFile(file, audio).catch(() => undefined);
-    return new Response(new Uint8Array(audio), { headers });
+    await writeFile(file, disclosedAudio).catch(() => undefined);
+    return new Response(new Uint8Array(disclosedAudio), { headers });
   } catch (err) {
     const message = err instanceof Error ? err.message : "tts failed";
     return new Response(message, { status: 502 });

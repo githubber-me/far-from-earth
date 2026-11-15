@@ -39,7 +39,7 @@ export default function SolReport() {
   }
 
   return (
-    <MarsScene className="screen-pad" bg="/assets/bg-sol.webp">
+    <MarsScene className="screen-pad" bg="/assets/bg-sol.svg">
       <div className="screen-content">
         <h2 className="screen-title font-pixel">{t.sol.title}</h2>
 

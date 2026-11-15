@@ -153,7 +153,7 @@ export default function LifeSupport() {
   }
 
   return (
-    <MarsScene className="screen-pad" bg="/assets/bg-life.webp">
+    <MarsScene className="screen-pad" bg="/assets/bg-life.svg">
       <div className="screen-content">
         <h2 className="screen-title font-pixel">{t.map.life}</h2>
         <p className="lab-intro">{lang === "en" ? "Close the loop: rotate the pipes to connect the blue inlet to the green outlet. Reusing water means carrying less from Earth." : "ಪೈಪ್ ತಿರುಗಿಸಿ ನೀಲಿ ಒಳಹರಿವನ್ನು ಹಸಿರು ಹೊರಹರಿವಿಗೆ ಜೋಡಿಸಿ. ನೀರಿನ ಮರುಬಳಕೆ ಭೂಮಿಯಿಂದ ಕಡಿಮೆ ನೀರು ತರುವಂತೆ ಮಾಡುತ್ತದೆ."}</p>

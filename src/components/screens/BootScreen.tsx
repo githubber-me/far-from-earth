@@ -25,7 +25,8 @@ export default function BootScreen() {
         <a className="demo-link" href="/demo"> <span className="play-circle" aria-hidden="true">▶</span>{w('Watch the mission film', 'ಯಾತ್ರೆಯ ಚಿತ್ರ ನೋಡಿ')}<span aria-hidden="true">↗</span></a>
       </div>
       <div className="hero-world">
-        <img src="/assets/generated/outpost.webp" alt={w('An astronaut and rover looking over their glowing Mars outpost', 'ಮಂಗಳದ ನೆಲೆಯನ್ನು ನೋಡುತ್ತಿರುವ ಗಗನಯಾತ್ರಿ ಮತ್ತು ರೋವರ್')} fetchPriority="high"/>
+        <img src="/assets/generated/outpost.svg" alt={w('An astronaut and rover looking over their glowing Mars outpost', 'ಮಂಗಳದ ನೆಲೆಯನ್ನು ನೋಡುತ್ತಿರುವ ಗಗನಯಾತ್ರಿ ಮತ್ತು ರೋವರ್')} fetchPriority="high"/>
+        <span className="art-disclosure">SI-GENERATED ARTWORK</span>
         <span className="world-coordinate">JEZERO / MARS<br/>MISSION 001</span>
         <div className="world-label"><span className="status-dot"/>{w('One small world. In your hands.', 'ಒಂದು ಪುಟ್ಟ ಜಗತ್ತು. ನಿಮ್ಮ ಕೈಯಲ್ಲಿ.')}<span className="world-cross">+</span></div>
       </div>
@@ -41,6 +42,7 @@ export default function BootScreen() {
         ['03', w('Bring the lesson home', 'ಕಲಿತದ್ದನ್ನು ಮನೆಗೆ ತನ್ನಿ'), w('Protect your crew. Reflect on what you learned.', 'ತಂಡವನ್ನು ರಕ್ಷಿಸಿ. ಕಲಿತದ್ದನ್ನು ಯೋಚಿಸಿ.'), '✳'],
       ].map(([n, title, body, icon]) => <article key={n}><span className="path-number">{n}</span><div><h3>{title}</h3><p>{body}</p></div><span className="path-icon" aria-hidden="true">{icon}</span></article>)}
     </div>
+    <aside className="si-notice">{w("SI-generated artwork and voices · SI-assisted code and learning models.", "SI-ಸೃಷ್ಟಿತ ಚಿತ್ರಗಳು ಮತ್ತು ಧ್ವನಿಗಳು · SI ನೆರವಿನ ಕೋಡ್ ಮತ್ತು ಕಲಿಕೆಯ ಮಾದರಿಗಳು.")} <a href="/disclosure">{w("Read the disclosure", "ವಿವರಗಳನ್ನು ಓದಿ")} ↗</a></aside>
     <footer className="launch-footer"><span>Created by <strong>Anthahkarana</strong></span><span>{w('A fictional mission. Real curiosity.', 'ಕಲ್ಪಿತ ಯಾತ್ರೆ. ನಿಜವಾದ ಕುತೂಹಲ.')}</span><button onClick={() => go('sources')}>{w('Science & sources', 'ವಿಜ್ಞಾನ ಮತ್ತು ಮೂಲಗಳು')} ↗</button></footer>
   </main>;
 }

@@ -24,7 +24,7 @@ export default function Greenhouse() {
     if(result.watered&&result.lit)bumpStat('plantsWatered');
     setRunning(false);
   }
-  return <MarsScene className="screen-pad" bg="/assets/generated/greenhouse.webp"><div className="screen-content lab-content">
+  return <MarsScene className="screen-pad" bg="/assets/generated/greenhouse.svg"><div className="screen-content lab-content">
     <span className="eyebrow">{w('EXPERIMENT 02 / LIVING THINGS','ಪ್ರಯೋಗ 02 / ಜೀವಿಗಳು')}</span><h1 className="screen-title">{w('Grow a little tomorrow.','ನಾಳೆಗಾಗಿ ಬೆಳೆಸಿ.')}</h1><p className="lab-intro">{w('Three growing cycles. Six water units. Study a plant’s needs, then test how water and light affect your harvest.','ಮೂರು ಬೆಳವಣಿಗೆ ಚಕ್ರಗಳು. ಆರು ನೀರಿನ ಘಟಕಗಳು. ಗಿಡದ ಅಗತ್ಯ ತಿಳಿದು ನೀರು ಮತ್ತು ಬೆಳಕು ಬೆಳೆ ಮೇಲೆ ಹೇಗೆ ಪರಿಣಾಮ ಬೀರುತ್ತದೆ ಎಂದು ಪರೀಕ್ಷಿಸಿ.')}</p>
     {done ? <div className="experiment-result result-good"><h2>{w('Your harvest is in the food reserve.','ನಿಮ್ಮ ಬೆಳೆ ಆಹಾರದ ಸಂಗ್ರಹದಲ್ಲಿದೆ.')}</h2><p>{w('Plants need the right amount of water and enough light together. More water alone cannot fix too little light.','ಗಿಡಗಳಿಗೆ ಸರಿಯಾದ ಪ್ರಮಾಣದ ನೀರು ಮತ್ತು ಸಾಕಷ್ಟು ಬೆಳಕು ಒಟ್ಟಿಗೆ ಬೇಕು. ಹೆಚ್ಚು ನೀರು ಮಾತ್ರ ಕಡಿಮೆ ಬೆಳಕನ್ನು ಸರಿಪಡಿಸಲಾರದು.')}</p><button className="btn-main" onClick={()=>go('map')}>{w('Back to the outpost','ನೆಲೆಗೆ ಹಿಂದಿರುಗಿ')} ↗</button></div> : <>
     <div className="crop-options">{crops.map(({id,name})=><button key={id} disabled={results.length>0} className={crop===id?'selected':''} aria-pressed={crop===id} onClick={()=>setCrop(id)}><span aria-hidden="true">{id==='tomatoes'?'◉':id==='potatoes'?'◈':'✳'}</span><strong>{name}</strong><small>{CROP_NEEDS[id].water} {w('water','ನೀರು')} · {CROP_NEEDS[id].light} {w('light','ಬೆಳಕು')}</small></button>)}</div>

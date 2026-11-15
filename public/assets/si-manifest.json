@@ -1,0 +1,110 @@
+{
+  "creator": "Anthahkarana",
+  "assets": [
+    {
+      "file": "/assets/astronaut-brave.svg",
+      "siGenerated": true,
+      "tool": "OpenAI image generation",
+      "source": "assets/source/astronaut-brave.webp",
+      "visibleDisclosure": "SI-GENERATED ARTWORK"
+    },
+    {
+      "file": "/assets/astronaut-celebrate.svg",
+      "siGenerated": true,
+      "tool": "OpenAI image generation",
+      "source": "assets/source/astronaut-celebrate.webp",
+      "visibleDisclosure": "SI-GENERATED ARTWORK"
+    },
+    {
+      "file": "/assets/astronaut-wave.svg",
+      "siGenerated": true,
+      "tool": "OpenAI image generation",
+      "source": "assets/source/astronaut-wave.webp",
+      "visibleDisclosure": "SI-GENERATED ARTWORK"
+    },
+    {
+      "file": "/assets/bg-greenhouse.svg",
+      "siGenerated": true,
+      "tool": "OpenAI image generation",
+      "source": "assets/source/bg-greenhouse.webp",
+      "visibleDisclosure": "SI-GENERATED ARTWORK"
+    },
+    {
+      "file": "/assets/bg-life.svg",
+      "siGenerated": true,
+      "tool": "OpenAI image generation",
+      "source": "assets/source/bg-life.webp",
+      "visibleDisclosure": "SI-GENERATED ARTWORK"
+    },
+    {
+      "file": "/assets/bg-outpost.svg",
+      "siGenerated": true,
+      "tool": "OpenAI image generation",
+      "source": "assets/source/bg-outpost.webp",
+      "visibleDisclosure": "SI-GENERATED ARTWORK"
+    },
+    {
+      "file": "/assets/bg-power.svg",
+      "siGenerated": true,
+      "tool": "OpenAI image generation",
+      "source": "assets/source/bg-power.webp",
+      "visibleDisclosure": "SI-GENERATED ARTWORK"
+    },
+    {
+      "file": "/assets/bg-sol.svg",
+      "siGenerated": true,
+      "tool": "OpenAI image generation",
+      "source": "assets/source/bg-sol.webp",
+      "visibleDisclosure": "SI-GENERATED ARTWORK"
+    },
+    {
+      "file": "/assets/bg-space.svg",
+      "siGenerated": true,
+      "tool": "OpenAI image generation",
+      "source": "assets/source/bg-space.webp",
+      "visibleDisclosure": "SI-GENERATED ARTWORK"
+    },
+    {
+      "file": "/assets/bg-storm.svg",
+      "siGenerated": true,
+      "tool": "OpenAI image generation",
+      "source": "assets/source/bg-storm.webp",
+      "visibleDisclosure": "SI-GENERATED ARTWORK"
+    },
+    {
+      "file": "/assets/chinnu.svg",
+      "siGenerated": true,
+      "tool": "OpenAI image generation",
+      "source": "assets/source/chinnu.png",
+      "visibleDisclosure": "SI-GENERATED ARTWORK"
+    },
+    {
+      "file": "/assets/generated/greenhouse.svg",
+      "siGenerated": true,
+      "tool": "OpenAI image generation",
+      "source": "assets/source/generated/greenhouse.webp",
+      "visibleDisclosure": "SI-GENERATED ARTWORK"
+    },
+    {
+      "file": "/assets/generated/outpost.svg",
+      "siGenerated": true,
+      "tool": "OpenAI image generation",
+      "source": "assets/source/generated/outpost.webp",
+      "visibleDisclosure": "SI-GENERATED ARTWORK"
+    },
+    {
+      "file": "/assets/gerald.svg",
+      "siGenerated": true,
+      "tool": "OpenAI image generation",
+      "source": "assets/source/gerald.png",
+      "visibleDisclosure": "SI-GENERATED ARTWORK"
+    },
+    {
+      "file": "/assets/mascot.svg",
+      "siGenerated": true,
+      "tool": "OpenAI image generation",
+      "source": "assets/source/mascot.png",
+      "visibleDisclosure": "SI-GENERATED ARTWORK"
+    }
+  ]
+}

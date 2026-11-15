@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
-"""Post-process generated assets: downscale for mobile, fix alpha, copy to public/assets."""
+"""Post-process generated assets: downscale for mobile, fix alpha, then publish SI-labeled artwork."""
 import shutil
+import subprocess
 import sys
 from pathlib import Path
 
 from PIL import Image
 
 SRC = Path("/private/var/folders/qg/1rrmyc1527xc52nk9k3hd1bc0000gn/T/opencode/asset-gen")
-DST = Path("/Users/thegreat/github/junior-builder/public/assets")
+ROOT = Path(__file__).resolve().parent.parent
+DST = ROOT / "assets/source"
 DST.mkdir(parents=True, exist_ok=True)
 
 MAX_EDGE = 1280
@@ -53,4 +55,5 @@ for name in BG:
 for name in STICKERS:
     process(name, transparent=True)
 
-print("done")
+subprocess.run(["node", str(ROOT / "scripts/disclose-artwork.mjs")], cwd=ROOT, check=True)
+print("done: SI-labeled SVG exports published")
